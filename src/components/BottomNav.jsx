@@ -1,16 +1,19 @@
-import { IconHome, IconBook, IconCompass } from './icons'
+import { IconHome, IconBook, IconPaw, IconDots } from './icons'
+import { useLanguage } from '../i18n/LanguageContext'
 
 const TABS = [
-  { id: 'home', label: 'Kezdőlap', Icon: IconHome },
-  { id: 'explore', label: 'Kutatás', Icon: IconCompass },
-  { id: 'journal', label: 'Napló', Icon: IconBook },
+  { id: 'home', key: 'home', Icon: IconHome },
+  { id: 'explore', key: 'explore', Icon: IconPaw },
+  { id: 'journal', key: 'journal', Icon: IconBook },
+  { id: 'more', key: 'more', Icon: IconDots },
 ]
 
 export default function BottomNav({ current, onChange }) {
+  const { t } = useLanguage()
   return (
     <nav className="sticky bottom-0 z-30 bg-[var(--paper-raised)] border-t border-[var(--rule)]">
-      <div className="max-w-md mx-auto grid grid-cols-3">
-        {TABS.map(({ id, label, Icon }) => {
+      <div className="max-w-md mx-auto grid grid-cols-4">
+        {TABS.map(({ id, key, Icon }) => {
           const isActive = current === id
           return (
             <button
@@ -20,7 +23,7 @@ export default function BottomNav({ current, onChange }) {
               style={{ color: isActive ? 'var(--green-deep)' : 'var(--ink-soft)' }}
             >
               <Icon className="w-5 h-5" />
-              <span className={isActive ? 'font-medium' : ''}>{label}</span>
+              <span className={isActive ? 'font-semibold' : ''}>{t(key)}</span>
             </button>
           )
         })}

@@ -1,0 +1,123 @@
+import { createContext, useContext, useState } from 'react'
+
+const STORAGE_KEY = 'qrmb.language'
+
+export const LANGUAGES = [
+  { code: 'hu', label: 'Magyar', short: 'HU' },
+  { code: 'en', label: 'English', short: 'EN' },
+  { code: 'de', label: 'Deutsch', short: 'DE' },
+]
+
+const translations = {
+  hu: {
+    home: 'Kezdőlap', explore: 'Kutatás', journal: 'Napló', more: 'Egyebek',
+    activeResearch: 'Kutatás aktív', remaining: (value) => `${value} van hátra`,
+    greeting: (name) => `Szia, ${name}!`, ready: 'Készen állsz a mai felfedezésekre?',
+    observedAnimals: 'megfigyelt állat eddig', featuredAnimals: 'Kiemelt állatok', all: 'Összes',
+    customResearch: 'Saját kutatás', customResearchPrompt: 'Figyeltél meg másik állatot? Jegyezd le a saját felfedezésed!',
+    profile: 'Profil', language: 'Nyelv', researcher: 'Kutató', session: 'Kutatási session',
+    noActive: 'Nincs aktív', languageName: 'Magyar',
+    locationRetry: 'Helyzet újraellenőrzése', journalOpen: 'Ugrás a naplómhoz',
+    back: 'Vissza', close: 'Bezárás', save: 'Mentés', saved: 'Mentve', cancel: 'Mégse',
+    emptyJournal: 'Még nincs bejegyzésed.', journalTitle: 'Kutatási naplóm',
+    noActiveVisit: 'Nincs aktív látogatásod — a bejegyzéseidet megnyithatod és szerkesztheted, új kutatáshoz koppints ide.',
+    emptyJournalTitle: 'A naplód még üres', emptyJournalBody: 'Figyelj meg egy állatot a zooban, és az első bejegyzésed itt fog megjelenni.',
+    search: 'Keresés', noAnimal: 'Nincs ilyen nevű kiemelt állat.',
+    appSubtitle: 'Állatkerti kutatónapló', discover: 'Fedezd fel.', observe: 'Figyeld meg.', record: 'Jegyezd le.',
+    splashBody: 'Valódi élmények. Saját kutatónapló. Egy zöldebb jövőért.', startResearch: 'Kezdd a kutatást', myJournal: 'Az én naplóm',
+    askName: 'Hogy szólíthatunk?', nameBody: 'Add meg a keresztneved, hogy személyesebb legyen az élmény.', next: 'Tovább',
+    nameHint: 'Kíváncsi vagyok, milyen felfedezéseket teszel!',
+    startToday: 'Indítod a mai kutatást?', locationBody: 'Egy rövid helyellenőrzéssel aktiváljuk a látogatásodat.',
+    researchSession: '~5 órás kutatási session', locationPermission: 'A telefonod egyszeri helymeghatározását kérjük.', dataSafe: 'Az adataid biztonságban vannak.',
+    checkLocation: 'Helymeghatározás engedélyezése', checking: 'Helyzet ellenőrzése…',
+    prototype: 'Prototípus teszt eszközök:', simulateHere: 'Szimulálj: az állatkertben vagyok', simulateAway: 'Szimulálj: máshol vagyok',
+    locationConfirmed: 'Helyzet megerősítve!', locationConfirmedBody: (zoo) => `A koordinátáid alapján itt vagy: ${zoo}. Indíthatod a mai kutatást.`, startSession: 'Kutatási munkamenet indítása',
+    notAtZoo: 'Nem vagy most az állatkertben?', locationUnavailable: 'A helyzeted nem érhető el. Egyelőre csak a korábbi bejegyzéseidet érheted el.',
+    locationOutside: (zoo) => `A koordinátáid alapján nem vagy a(z) ${zoo} területén. Egyelőre csak a korábbi bejegyzéseidet érheted el — azokat meg is tudod nyitni és szerkeszteni.`, retry: 'Újrapróbálom',
+    outsideZoo: (zoo) => `Most nem vagy a ${zoo} területén`, restrictedBody: 'Új kutatási bejegyzést csak a látogatás alatt lehet indítani. A korábbi bejegyzéseidet most is elérheted és szerkesztheted a naplódban.',
+    animalName: 'Az állat neve', animalType: 'Milyen típusú állat?', diet: 'Mit eszik?', observed: 'Mit figyeltél meg?', ownNote: 'Saját jegyzet', notePlaceholder: 'Mit vettél észre? Bármi, amit meg szeretnél jegyezni…', optional: 'opcionális', saveResearch: 'Kutatás mentése', customBody: 'Találtál egy állatot, ami nincs a kiemeltek között? Rögzítsd itt a saját megfigyelésedet.',
+  },
+  en: {
+    home: 'Home', explore: 'Explore', journal: 'Journal', more: 'More',
+    activeResearch: 'Research active', remaining: (value) => `${value} remaining`,
+    greeting: (name) => `Hi, ${name}!`, ready: "Ready for today's discoveries?",
+    observedAnimals: 'animals observed so far', featuredAnimals: 'Featured animals', all: 'All',
+    customResearch: 'Your research', customResearchPrompt: 'Observed another animal? Record your own discovery!',
+    profile: 'Profile', language: 'Language', researcher: 'Researcher', session: 'Research session',
+    noActive: 'Not active', languageName: 'English',
+    locationRetry: 'Check location again', journalOpen: 'Open my journal',
+    back: 'Back', close: 'Close', save: 'Save', saved: 'Saved', cancel: 'Cancel',
+    emptyJournal: 'No entries yet.', journalTitle: 'My research journal',
+    noActiveVisit: 'No active visit. You can open and edit entries; tap here to start new research.',
+    emptyJournalTitle: 'Your journal is empty', emptyJournalBody: 'Observe an animal at the zoo and your first entry will appear here.',
+    search: 'Search', noAnimal: 'No featured animal with that name.',
+    appSubtitle: 'Zoo research journal', discover: 'Discover.', observe: 'Observe.', record: 'Record.',
+    splashBody: 'Real experiences. Your own research journal. For a greener future.', startResearch: 'Start researching', myJournal: 'My journal',
+    askName: 'What should we call you?', nameBody: 'Enter your first name to make the experience more personal.', next: 'Continue',
+    nameHint: 'I wonder what discoveries you will make!',
+    startToday: "Start today's research?", locationBody: 'A quick location check will activate your visit.', researchSession: '~5-hour research session', locationPermission: "We only ask for your phone's location once.", dataSafe: 'Your data is safe.',
+    checkLocation: 'Allow location access', checking: 'Checking location…', prototype: 'Prototype test tools:', simulateHere: 'Simulate: I am at the zoo', simulateAway: 'Simulate: I am elsewhere',
+    locationConfirmed: 'Location confirmed!', locationConfirmedBody: (zoo) => `Your coordinates show that you are at ${zoo}. You can start today's research.`, startSession: 'Start research session',
+    notAtZoo: 'Are you outside the zoo?', locationUnavailable: 'Your location is unavailable. For now, you can only access previous entries.', locationOutside: (zoo) => `Your coordinates show that you are not in ${zoo}. You can still open and edit previous entries.`, retry: 'Try again',
+    outsideZoo: (zoo) => `You are not at ${zoo}`, restrictedBody: 'New research entries can only be started during a visit. You can still access and edit previous entries in your journal.',
+    animalName: 'Animal name', animalType: 'What type of animal is it?', diet: 'What does it eat?', observed: 'What did you observe?', ownNote: 'Your note', notePlaceholder: 'What did you notice? Anything you would like to remember…', optional: 'optional', saveResearch: 'Save research', customBody: 'Found an animal that is not featured? Record your own observation here.',
+  },
+  de: {
+    home: 'Startseite', explore: 'Forschung', journal: 'Tagebuch', more: 'Mehr',
+    activeResearch: 'Forschung aktiv', remaining: (value) => `${value} verbleiben`,
+    greeting: (name) => `Hallo, ${name}!`, ready: 'Bereit für die Entdeckungen von heute?',
+    observedAnimals: 'beobachtete Tiere bisher', featuredAnimals: 'Besondere Tiere', all: 'Alle',
+    customResearch: 'Eigene Forschung', customResearchPrompt: 'Ein anderes Tier beobachtet? Halte deine Entdeckung fest!',
+    profile: 'Profil', language: 'Sprache', researcher: 'Forscher', session: 'Forschungssitzung',
+    noActive: 'Nicht aktiv', languageName: 'Deutsch',
+    locationRetry: 'Standort erneut prüfen', journalOpen: 'Mein Tagebuch öffnen',
+    back: 'Zurück', close: 'Schließen', save: 'Speichern', saved: 'Gespeichert', cancel: 'Abbrechen',
+    emptyJournal: 'Noch keine Einträge.', journalTitle: 'Mein Forschungstagebuch',
+    noActiveVisit: 'Kein aktiver Besuch. Du kannst Einträge öffnen und bearbeiten; tippe hier, um neue Forschung zu starten.',
+    emptyJournalTitle: 'Dein Tagebuch ist leer', emptyJournalBody: 'Beobachte ein Tier im Zoo, dann erscheint dein erster Eintrag hier.',
+    search: 'Suchen', noAnimal: 'Kein besonderes Tier mit diesem Namen.',
+    appSubtitle: 'Forschungstagebuch im Zoo', discover: 'Entdecke.', observe: 'Beobachte.', record: 'Notiere.',
+    splashBody: 'Echte Erlebnisse. Dein eigenes Forschungstagebuch. Für eine grünere Zukunft.', startResearch: 'Forschung starten', myJournal: 'Mein Tagebuch',
+    askName: 'Wie dürfen wir dich nennen?', nameBody: 'Gib deinen Vornamen ein, damit das Erlebnis persönlicher wird.', next: 'Weiter',
+    nameHint: 'Ich bin gespannt, welche Entdeckungen du machst!',
+    startToday: 'Forschung für heute starten?', locationBody: 'Eine kurze Standortprüfung aktiviert deinen Besuch.', researchSession: '~5-stündige Forschungssitzung', locationPermission: 'Wir fragen nur einmal nach dem Standort deines Telefons.', dataSafe: 'Deine Daten sind sicher.',
+    checkLocation: 'Standortzugriff erlauben', checking: 'Standort wird geprüft…', prototype: 'Prototyp-Testwerkzeuge:', simulateHere: 'Simulieren: Ich bin im Zoo', simulateAway: 'Simulieren: Ich bin woanders',
+    locationConfirmed: 'Standort bestätigt!', locationConfirmedBody: (zoo) => `Deine Koordinaten zeigen, dass du bei ${zoo} bist. Du kannst die Forschung starten.`, startSession: 'Forschungssitzung starten',
+    notAtZoo: 'Bist du gerade außerhalb des Zoos?', locationUnavailable: 'Dein Standort ist nicht verfügbar. Du kannst vorerst nur frühere Einträge aufrufen.', locationOutside: (zoo) => `Deine Koordinaten zeigen, dass du nicht auf dem Gelände von ${zoo} bist. Frühere Einträge kannst du weiterhin öffnen und bearbeiten.`, retry: 'Erneut versuchen',
+    outsideZoo: (zoo) => `Du bist nicht bei ${zoo}`, restrictedBody: 'Neue Forschungseinträge können nur während eines Besuchs erstellt werden. Frühere Einträge kannst du weiterhin in deinem Tagebuch öffnen und bearbeiten.',
+    animalName: 'Name des Tieres', animalType: 'Welche Tierart ist es?', diet: 'Was frisst es?', observed: 'Was hast du beobachtet?', ownNote: 'Eigene Notiz', notePlaceholder: 'Was ist dir aufgefallen? Alles, woran du dich erinnern möchtest…', optional: 'optional', saveResearch: 'Forschung speichern', customBody: 'Ein Tier entdeckt, das nicht vorgestellt wird? Halte hier deine eigene Beobachtung fest.',
+  },
+}
+
+const LanguageContext = createContext(null)
+
+export function LanguageProvider({ children }) {
+  const [language, setLanguage] = useState(() => {
+    const stored = window.localStorage.getItem(STORAGE_KEY)
+    return translations[stored] ? stored : 'hu'
+  })
+
+  function changeLanguage(nextLanguage) {
+    if (!translations[nextLanguage]) return
+    setLanguage(nextLanguage)
+    window.localStorage.setItem(STORAGE_KEY, nextLanguage)
+  }
+
+  const value = {
+    language,
+    languages: LANGUAGES,
+    setLanguage: changeLanguage,
+    t: (key, ...args) => {
+      const value = translations[language][key] ?? translations.hu[key] ?? key
+      return typeof value === 'function' ? value(...args) : value
+    },
+  }
+
+  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
+}
+
+export function useLanguage() {
+  const context = useContext(LanguageContext)
+  if (!context) throw new Error('useLanguage must be used within LanguageProvider')
+  return context
+}

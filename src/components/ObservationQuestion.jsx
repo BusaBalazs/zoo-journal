@@ -1,10 +1,17 @@
 import { useState } from 'react'
-import { IconLeaf } from './icons'
+import { IconMoon, IconWalk, IconFork, IconEye, IconPlay, IconEyeOff, IconCheck } from './icons'
 
-export default function ObservationQuestion({ question, options, onAnswer, initialAnswer }) {
+const OPTION_ICON = {
+  resting: IconMoon,
+  moving: IconWalk,
+  eating: IconFork,
+  watching: IconEye,
+  playing: IconPlay,
+  'not-visible': IconEyeOff,
+}
+
+export default function ObservationQuestion({ options, onAnswer, initialAnswer }) {
   const [selected, setSelected] = useState(initialAnswer || null)
-
-  const chosen = options.find((o) => o.id === selected)
 
   function choose(opt) {
     setSelected(opt.id)
@@ -12,40 +19,48 @@ export default function ObservationQuestion({ question, options, onAnswer, initi
   }
 
   return (
-    <div>
-      <div className="bg-[var(--green-deep)] text-[var(--paper-raised)] rounded-2xl p-5 mb-4">
-        <div className="flex items-center gap-2 text-[color:var(--paper)]/80 mb-2">
-          <IconLeaf className="w-4 h-4" />
-          <span className="text-sm">Tedd le most a telefont</span>
-        </div>
-        <p className="font-display text-lg leading-snug">Figyeld meg alaposan az állatot egy percig.</p>
-      </div>
-
-      <p className="font-medium text-ink mb-3">{question}</p>
-
-      <div className="grid grid-cols-2 gap-2.5">
-        {options.map((opt) => (
+    <div className="space-y-2.5">
+      {options.map((opt) => {
+        const isSelected = selected === opt.id
+        const OptIcon = OPTION_ICON[opt.id]
+        return (
           <button
             key={opt.id}
             type="button"
             onClick={() => choose(opt)}
-            className={`text-sm text-left px-3.5 py-3 rounded-xl border transition-colors ${
-              selected === opt.id
-                ? 'bg-[var(--green-deep)] border-[var(--green-deep)] text-[var(--paper-raised)]'
-                : 'bg-[var(--paper-raised)] border-[var(--rule)] text-ink hover:border-[var(--green-mid)]'
+            className={`w-full flex items-center gap-3 pl-3 pr-4 py-3 rounded-2xl border text-left transition-colors ${
+              isSelected
+                ? 'bg-[color:var(--green-mid)]/10 border-[var(--green-mid)]'
+                : 'bg-[var(--paper-raised)] border-[var(--rule)] hover:border-[var(--green-mid)]'
             }`}
           >
-            {opt.label}
+            <span
+              className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
+                isSelected ? 'bg-[var(--green-mid)] text-white' : 'bg-[var(--paper)] text-[var(--green-mid)]'
+              }`}
+            >
+              {OptIcon && <OptIcon className="w-4.5 h-4.5" />}
+            </span>
+            <span className={`flex-1 font-medium ${isSelected ? 'text-[var(--green-deep)]' : 'text-ink'}`}>
+              {opt.label}
+            </span>
+            {isSelected && (
+              <span className="w-6 h-6 rounded-full bg-[var(--green-mid)] text-white flex items-center justify-center shrink-0">
+                <IconCheck className="w-3.5 h-3.5" />
+              </span>
+            )}
           </button>
-        ))}
-      </div>
+        )
+      })}
 
-      {chosen && (
-        <div className="mt-4 rise-in bg-[color:var(--ochre)]/12 border border-[color:var(--ochre)]/35 rounded-2xl p-4">
+      {selected && (
+        <div className="rise-in mt-4 bg-[color:var(--ochre)]/12 border border-[color:var(--ochre)]/30 rounded-2xl p-4">
           <p className="text-sm font-semibold text-[var(--ochre-deep)] mb-1">
-            {chosen.id === 'not-visible' ? 'Nem baj.' : 'Szép megfigyelés!'}
+            {selected === 'not-visible' ? 'Nem baj.' : 'Szép megfigyelés!'}
           </p>
-          <p className="text-sm text-ink-soft leading-snug">{chosen.note}</p>
+          <p className="text-sm text-ink-soft leading-snug">
+            {options.find((o) => o.id === selected)?.note}
+          </p>
         </div>
       )}
     </div>

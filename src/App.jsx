@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
+import Splash from './pages/Splash'
 import Onboarding from './pages/Onboarding'
-import Welcome from './pages/Welcome'
-import VisitStart from './pages/VisitStart'
+import LocationCheck from './pages/LocationCheck'
 import Home from './pages/Home'
 import Explore from './pages/Explore'
 import Journal from './pages/Journal'
+import More from './pages/More'
 import AnimalDetail from './pages/AnimalDetail'
 import CustomResearch from './pages/CustomResearch'
 import EntryDetail from './pages/EntryDetail'
 import BottomNav from './components/BottomNav'
-import ProfileModal from './components/ProfileModal'
 import { storage, makeLocalId } from './utils/storage'
 import { createVisit, isVisitActive, expireVisit } from './utils/session'
 import { getAnimalById } from './data/animals'
@@ -19,13 +19,13 @@ export default function App() {
   const [visit, setVisit] = useState(() => storage.getVisit())
   const [entries, setEntries] = useState(() => storage.getEntries())
 
-  const [screen, setScreen] = useState(() => (storage.getUser() ? 'shell' : 'onboarding'))
+  const [screen, setScreen] = useState(() => (storage.getUser() ? 'shell' : 'splash'))
   const [activeTab, setActiveTab] = useState('home')
   const [subScreen, setSubScreen] = useState(null) // { type: 'animal'|'custom'|'entry', id }
-  const [returnTo, setReturnTo] = useState(null) // where to land after visit-start completes
-  const [showProfile, setShowProfile] = useState(false)
+  const [afterOnboarding, setAfterOnboarding] = useState('location') // 'location' | 'journal'
+  const [returnTo, setReturnTo] = useState(null) // where to land after a successful location check
 
-  // Re-render every 30s so the "time remaining" label and expiry state stay fresh.
+  // Re-render every 30s so the "time remaining" label / expiry state stays fresh.
   const [, forceTick] = useState(0)
   useEffect(() => {
     const id = setInterval(() => forceTick((n) => n + 1), 30000)
@@ -38,23 +38,27 @@ export default function App() {
 
   const active = isVisitActive(visit)
 
-  function handleOnboardingSubmit(name) {
-    setUser({ id: makeLocalId('user'), name })
-    setScreen('welcome')
-  }
-
   function goShell(tab, sub = null) {
     setScreen('shell')
     setActiveTab(tab)
     setSubScreen(sub)
   }
 
-  function openVisitStart(landingAfter) {
-    setReturnTo(landingAfter)
-    setScreen('visit-start')
+  function startOnboarding(landing) {
+    setAfterOnboarding(landing)
+    setScreen('onboarding')
   }
 
-  function handleSessionStarted() {
+  function handleOnboardingSubmit(name) {
+    setUser({ id: makeLocalId('user'), name })
+    if (afterOnboarding === 'journal') {
+      goShell('journal')
+    } else {
+      setScreen('location')
+    }
+  }
+
+  function handleLocationMatched() {
     setVisit(createVisit())
     if (returnTo) {
       goShell(returnTo.activeTab, returnTo.subScreen)
@@ -62,6 +66,15 @@ export default function App() {
       goShell('home')
     }
     setReturnTo(null)
+  }
+
+  function retryLocation(landing = null) {
+    setReturnTo(landing)
+    setScreen('location')
+  }
+
+  function retryLocationFromOverlay() {
+    retryLocation({ activeTab, subScreen })
   }
 
   function handleExpireSession() {
@@ -77,7 +90,7 @@ export default function App() {
       ...data,
     }
     setEntries((prev) => [entry, ...prev])
-    goShell('journal')
+    return entry
   }
 
   function updateEntry(id, patch) {
@@ -93,33 +106,32 @@ export default function App() {
     }
   }
 
-  // ---- top-level screens ----
+  // ---- top-level (pre-shell) screens ----
 
-  if (screen === 'onboarding') {
-    return <Onboarding onSubmit={handleOnboardingSubmit} />
+  if (screen === 'splash') {
+    return (
+      <Splash
+        onStart={() => startOnboarding('location')}
+        onOpenJournal={() => (user ? goShell('journal') : startOnboarding('journal'))}
+      />
+    )
   }
 
-  if (screen === 'welcome') {
+  if (screen === 'onboarding') {
+    return <Onboarding onBack={() => setScreen('splash')} onSubmit={handleOnboardingSubmit} />
+  }
+
+  if (screen === 'location') {
     return (
-      <Welcome
-        userName={user?.name}
-        entryCount={entries.length}
-        onStart={() => openVisitStart({ activeTab: 'home', subScreen: null })}
+      <LocationCheck
+        onBack={() => (returnTo ? goShell(returnTo.activeTab, returnTo.subScreen) : goShell(active ? 'home' : 'journal'))}
+        onMatched={handleLocationMatched}
         onOpenJournal={() => goShell('journal')}
       />
     )
   }
 
-  if (screen === 'visit-start') {
-    return (
-      <VisitStart
-        onBack={() => (returnTo ? goShell(returnTo.activeTab, returnTo.subScreen) : goShell('home'))}
-        onSessionStarted={handleSessionStarted}
-      />
-    )
-  }
-
-  // ---- shell (home / explore / journal + overlays) ----
+  // ---- shell (home / explore / journal / more + overlays) ----
 
   let overlay = null
   if (subScreen?.type === 'animal') {
@@ -129,7 +141,9 @@ export default function App() {
         animal={animal}
         active={active}
         onBack={() => setSubScreen(null)}
-        onStartVisit={() => openVisitStart({ activeTab, subScreen })}
+        onGoExplore={() => setSubScreen(null)}
+        onGoJournal={() => goShell('journal')}
+        onStartVisit={retryLocationFromOverlay}
         onSave={saveEntry}
       />
     )
@@ -138,7 +152,9 @@ export default function App() {
       <CustomResearch
         active={active}
         onBack={() => setSubScreen(null)}
-        onStartVisit={() => openVisitStart({ activeTab, subScreen })}
+        onGoExplore={() => setSubScreen(null)}
+        onGoJournal={() => goShell('journal')}
+        onStartVisit={retryLocationFromOverlay}
         onSave={saveEntry}
       />
     )
@@ -162,11 +178,11 @@ export default function App() {
             visit={visit}
             active={active}
             entries={entries}
-            onStartVisit={() => openVisitStart({ activeTab: 'home', subScreen: null })}
             onOpenAnimal={openAnimal}
             onGoExplore={() => setActiveTab('explore')}
             onGoJournal={() => setActiveTab('journal')}
-            onOpenProfile={() => setShowProfile(true)}
+            onOpenProfile={() => setActiveTab('more')}
+            onRetryLocation={() => retryLocation()}
           />
         )}
         {activeTab === 'explore' && (
@@ -175,25 +191,29 @@ export default function App() {
             active={active}
             onOpenAnimal={openAnimal}
             onCustomResearch={() => setSubScreen({ type: 'custom' })}
+            onRetryLocation={() => retryLocation()}
+            onGoJournal={() => setActiveTab('journal')}
           />
         )}
         {activeTab === 'journal' && (
-          <Journal entries={entries} onOpenEntry={(id) => setSubScreen({ type: 'entry', id })} />
+          <Journal
+            entries={entries}
+            active={active}
+            onOpenEntry={(id) => setSubScreen({ type: 'entry', id })}
+            onRetryLocation={() => retryLocation()}
+          />
+        )}
+        {activeTab === 'more' && (
+          <More
+            user={user}
+            visit={visit}
+            active={active}
+            onRetryLocation={() => retryLocation()}
+            onExpireSession={handleExpireSession}
+          />
         )}
       </div>
       <BottomNav current={activeTab} onChange={setActiveTab} />
-
-      {showProfile && (
-        <ProfileModal
-          user={user}
-          visitActive={active}
-          onClose={() => setShowProfile(false)}
-          onExpireSession={() => {
-            handleExpireSession()
-            setShowProfile(false)
-          }}
-        />
-      )}
     </div>
   )
 }
