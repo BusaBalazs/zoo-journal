@@ -3,7 +3,7 @@
 // Without an active visit, the app falls back to journal-only access.
 
 const ZOO_ID = 'budapest-zoo'
-const ZOO_NAME = 'Budapest Zoo'
+const ZOO_NAME = 'Fővárosi Állat- és Növénykert'
 const SESSION_LENGTH_MS = 5 * 60 * 60 * 1000 // 5 hours
 
 // Fővárosi Állat- és Növénykert, Budapest — Állatkerti krt. 6-12.

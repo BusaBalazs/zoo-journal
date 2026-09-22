@@ -1,21 +1,21 @@
-import { LionArt, ElephantArt } from './creatures'
+
 import { IconChevronRight, IconCheck } from './icons'
+import { animalCards } from '../assets/index'
 
-const ART = { lion: LionArt, elephant: ElephantArt }
-const PHOTO = { lion: '/images/landing-lion.jpg' }
 
-export default function AnimalCard({ animal, observed, onClick }) {
-  const Art = ART[animal.art]
-  const photo = PHOTO[animal.art]
+
+export default function AnimalCard({ animal, observed, onClick, photoSrc }) {
+  const photo = animalCards[photoSrc]
+
   return (
     <button
       onClick={onClick}
-      className="text-left bg-[var(--paper-raised)] rounded-2xl overflow-hidden shadow-sm border border-[var(--rule)] hover:shadow-md transition-shadow w-full"
+      className="relative text-left bg-[var(--paper-light)] rounded-2xl overflow-hidden shadow-sm border border-[var(--rule)] hover:shadow-md transition-shadow w-full"
     >
-      <div className="h-28 bg-[color:var(--green-line)]/40">
-        {photo ? <img src={photo} alt="" className="w-full h-full object-cover" /> : <Art className="w-full h-full" />}
+      <div className="h-55">
+        {photo ? <img src={photo} alt={animal.name} className="w-full h-full object-cover" /> : null}
       </div>
-      <div className="p-3 flex items-center gap-2">
+      <div className="absolute bottom-0 px-3 py-4 flex items-center gap-2 bg-[var(--paper-light)]/95  rounded-t-2xl w-full">
         <div className="flex-1 min-w-0">
           <p className="font-bold text-[15px] text-ink truncate leading-tight">{animal.name}</p>
           <p className="text-xs text-ink-soft italic truncate">{animal.scientificName}</p>

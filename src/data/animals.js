@@ -7,6 +7,7 @@ export const ANIMALS = [
     art: 'lion',
     name: 'Oroszlán',
     scientificName: 'Panthera leo',
+    src: 'lionCard',
     intro:
       'A vadon élő oroszlánok elsősorban Afrikában élnek. Társas ragadozók, amelyek falkákban élnek és együtt vadásznak.',
     habitat: 'Szavannák, füves puszták és ritkás erdők Afrikában.',
@@ -30,6 +31,7 @@ export const ANIMALS = [
     art: 'elephant',
     name: 'Elefánt',
     scientificName: 'Loxodonta africana / Elephas maximus',
+    src: 'elephantCard',
     intro:
       'Az elefántok a szárazföld legnagyobb élő emlősei. Rendkívül intelligensek, szoros családi kötelékben élnek, és kiváló memóriájuk van.',
     habitat: 'Szavannák, erdők és folyóvölgyek Afrikában és Ázsiában.',

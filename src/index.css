@@ -22,9 +22,10 @@
 :root {
   --ink: #172a20;
   --ink-soft: #5c6b61;
-  --paper: #f7f7f2;
-  --paper-raised: #ffffff;
-  --green-deep: #163c2c;
+  --paper: #e6eff0;
+  --paper-raised: #d4e5e5;
+  --paper-light: #ebf7f7;
+  --green-deep: #247761;
   --green-mid: #2d8971;
   --green-line: #cfe0d3;
   --green-darker: #0e2a1e;
@@ -33,7 +34,7 @@
   --ochre-tint: #fdeee0;
   --teal: #2f6b6b;
   --clay: #b1573f;
-  --rule: #e6e6de;
+  --rule: #eaeae0;
 }
 
 * {
