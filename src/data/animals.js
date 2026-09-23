@@ -4,7 +4,7 @@
 export const ANIMALS = [
   {
     id: "lion",
-  
+
     name: {
       hu: "Oroszlán",
       en: "Lion",
@@ -200,6 +200,103 @@ export const ANIMALS = [
           hu: "Nem baj — próbálj másik szögből nézni, vagy sétálj tovább egy kicsit.",
           en: "That is okay. Try looking from another angle or walk on a little.",
           de: "Das ist in Ordnung. Versuche es aus einem anderen Blickwinkel oder geh ein Stück weiter.",
+        },
+      },
+    ],
+  },
+  {
+    id: "penguin",
+
+    name: {
+      hu: "Pingvin",
+      en: "Penguin",
+      de: "Pinguin",
+    },
+    scientificName: "Spheniscidae",
+    src: "penguinCard",
+    intro: {
+      hu: "A pingvinek röpképtelen tengeri madarak, amelyek kiválóan alkalmazkodtak a vízi életmódhoz. Idejük nagy részét a tengerben töltik vadászattal.",
+      en: "Penguins are flightless seabirds that are highly adapted to life in the water. They spend most of their time at sea hunting.",
+      de: "Pinguine sind flugunfähige Seevögel, die hervorragend an das Leben im Wasser angepasst sind. Sie verbringen die meiste Zeit jagend im Meer.",
+    },
+    habitat: {
+      hu: "Főként a déli féltekén: az Antarktisztól kezdve Dél-Afrika, Dél-Amerika és Ausztrália tengerpartjaiig, sőt a Galápagos-szigetekig.",
+      en: "Mainly in the Southern Hemisphere: from Antarctica to the coasts of South Africa, South America, Australia, and even the Galápagos Islands.",
+      de: "Hauptsächlich auf der Südhalbkugel: von der Antarktis bis zu den Küsten Südafrikas, Südamerikas, Australiens und sogar den Galápagos-Inseln.",
+    },
+    diet: {
+      hu: "Húsevő: elsősorban hallal, garnélarákkal (krillel) és kalmárral táplálkozik.",
+      en: "Carnivore: feeds mainly on fish, krill, and squid.",
+      de: "Fleischfresser: ernährt sich hauptsächlich von Fisch, Krill und Tintenfisch.",
+    },
+    lifestyle: {
+      hu: "Társas lény, hatalmas kolóniákban (kráterekben) él és fészkel. Nagyon jól úszik és mélyre tud merülni a zsákmányért.",
+      en: "Social animal, living and nesting in large colonies. It is an excellent swimmer and can dive deep for prey.",
+      de: "Soziales Tier, das in riesigen Kolonien lebt und nistet. Er ist ein hervorragender Schwimmer und kann auf der Suche nach Beute tief tauchen.",
+    },
+    interestingFact: {
+      hu: "A pingvinek szárnyai az evolúció során hatékony uszonyokká alakultak, így a víz alatt úgy tűnik, mintha repülnének.",
+      en: "Over time, penguins' wings evolved into efficient flippers, making them look as if they are flying underwater.",
+      de: "Die Flügel der Pinguine haben sich im Laufe der Evolution zu effizienten Flossen entwickelt, sodass es unter Wasser aussieht, als würden sie fliegen.",
+    },
+    observationQuestion: {
+      hu: "Mit csinál most a pingvin?",
+      en: "What is the penguin doing now?",
+      de: "Was macht der Pinguin gerade?",
+    },
+    observationOptions: [
+      {
+        id: "resting",
+        label: { hu: "Pihen", en: "Resting", de: "Ruhen" },
+        note: {
+          hu: "A pingvinek állva vagy a hasukon fekve is képesek aludni, gyakran egymáshoz bújva tartják melegen magukat.",
+          en: "Penguins can sleep standing up or lying on their bellies, often huddling together to stay warm.",
+          de: "Pinguine können im Stehen oder auf dem Bauch liegend schlafen und kuscheln sich oft aneinander, um sich warm zu halten.",
+        },
+      },
+      {
+        id: "moving",
+        label: { hu: "Mozog", en: "Moving", de: "In Bewegung" },
+        note: {
+          hu: "A szárazföldön jellegzetesen tipegnek, de a jégen néha a hasukon csúszva (szánkózva) haladnak gyorsabban.",
+          en: "On land they have a distinctive waddle, but on ice they sometimes toboggan on their bellies to move faster.",
+          de: "An Land watscheln sie charakteristisch, aber auf Eis rutschen sie manchmal auf dem Bauch (Schlittenfahren), um sich schneller zu bewegen.",
+        },
+      },
+      {
+        id: "eating",
+        label: { hu: "Eszik", en: "Eating", de: "Fressen" },
+        note: {
+          hu: "A pingvinek egészben nyelik le a halat a víz alatt. Nyelvükön tüskék találhatók, hogy a csúszós zsákmány ne menekülhessen el.",
+          en: "Penguins swallow fish whole underwater. They have backward-facing spines on their tongues to keep slippery prey from escaping.",
+          de: "Pinguine verschlingen Fische unter Wasser im Ganzen. Ihre Zungen haben nach hinten gerichtete Stacheln, damit die schlüpfrige Beute nicht entkommt.",
+        },
+      },
+      {
+        id: "swimming",
+        label: { hu: "Úszik", en: "Swimming", de: "Schwimmen" },
+        note: {
+          hu: "A vízi akrobaták akár 20-30 km/h sebességgel is képesek úszni, és időnként kiugranak a vízből levegőért.",
+          en: "These aquatic acrobats can swim up to 20-30 km/h and occasionally leap out of the water to breathe.",
+          de: "Diese Akrobaten des Wassers können bis zu 20–30 km/h schnell schwimmen und springen manchmal aus dem Wasser, um Luft zu holen.",
+        },
+      },
+      {
+        id: "preening",
+        label: { hu: "Tollászkodik", en: "Preening", de: "Gefieder pflegen" },
+        note: {
+          hu: "A tollazat ápolása létfontosságú: speciális olajjal vonják be a tollaikat, így azok teljesen vízállóak maradnak.",
+          en: "Preening is essential: they spread a special oil over their feathers to keep them completely waterproof.",
+          de: "Die Gefiederpflege ist lebenswichtig: Sie verteilen ein spezielles Öl auf ihren Federn, damit diese vollständig wasserdicht bleiben.",
+        },
+      },
+      {
+        id: "not-visible",
+        label: { hu: "Nem látom", en: "Not visible", de: "Nicht zu sehen" },
+        note: {
+          hu: "Nem baj — lehet, hogy épp a víz alatt búvárkodik vagy a búvóhelyén pihen.",
+          en: "That is okay. It might be diving underwater or resting in its shelter.",
+          de: "Das ist in Ordnung. Vielleicht taucht er gerade unter Wasser oder ruht sich in seinem Unterschlupf aus.",
         },
       },
     ],

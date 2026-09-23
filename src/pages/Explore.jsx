@@ -76,7 +76,7 @@ export default function Explore({
         )}
       </div>
 
-      <div className="space-y-2.5 mb-5">
+      <div className="space-y-2.5 grid grid-cols-2 gap-3 mb-6">
         {filtered.map((animal) => (
           <AnimalListRow
             key={animal.id}

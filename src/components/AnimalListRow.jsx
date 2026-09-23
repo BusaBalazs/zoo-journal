@@ -17,7 +17,7 @@ export default function AnimalListRow({ animal, observed, onClick, photoSrc }) {
       onClick={onClick}
       className="w-full text-left bg-[var(--paper-raised)] rounded-2xl overflow-hidden shadow-sm border border-[var(--rule)] hover:shadow-md transition-shadow"
     >
-      <div className="h-28 bg-[color:var(--green-line)]/40">
+      <div className="h-45 bg-[color:var(--green-line)]/40">
         {photo ? <img src={photo} alt="" className="w-full h-full object-cover" /> : null}
       </div>
       <div className="p-4 flex items-center gap-3">

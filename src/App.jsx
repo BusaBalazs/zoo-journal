@@ -1,4 +1,13 @@
 import { useEffect, useState } from "react";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import Splash from "./pages/Splash";
 import Onboarding from "./pages/Onboarding";
 import LocationCheck from "./pages/LocationCheck";
@@ -14,25 +23,32 @@ import { storage, makeLocalId } from "./utils/storage";
 import { createVisit, isVisitActive, expireVisit } from "./utils/session";
 import { getAnimalById } from "./data/animals";
 
-//---------------------------------------------------------------------
-//---------------------------------------------------------------------
+function UserRoute({ user, children }) {
+  return user ? children : <Navigate to="/splash" replace />;
+}
+
+function Shell({ children, activeTab, onChange }) {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <div className="flex-1">{children}</div>
+      <BottomNav current={activeTab} onChange={onChange} />
+    </div>
+  );
+}
+
 export default function App() {
   const [user, setUser] = useState(() => storage.getUser());
   const [visit, setVisit] = useState(() => storage.getVisit());
   const [entries, setEntries] = useState(() => storage.getEntries());
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
 
-  const [screen, setScreen] = useState(() =>
-    storage.getUser() ? "shell" : "splash",
-  );
-  const [activeTab, setActiveTab] = useState("home");
-  const [subScreen, setSubScreen] = useState(null); // { type: 'animal'|'custom'|'entry', id }
-  const [afterOnboarding, setAfterOnboarding] = useState("location"); // 'location' | 'journal'
-  const [returnTo, setReturnTo] = useState(null); // where to land after a successful location check
-
-  // Re-render every 30s so the "time remaining" label / expiry state stays fresh.
-  const [, forceTick] = useState(0);
   useEffect(() => {
-    const id = setInterval(() => forceTick((n) => n + 1), 30000);
+    const id = setInterval(
+      () => setVisit((current) => ({ ...current })),
+      30000,
+    );
     return () => clearInterval(id);
   }, []);
 
@@ -42,47 +58,34 @@ export default function App() {
 
   const active = isVisitActive(visit);
 
-  function goShell(tab, sub = null) {
-    setScreen("shell");
-    setActiveTab(tab);
-    setSubScreen(sub);
+  function goTab(tab) {
+    navigate(`/${tab}`);
   }
 
   function startOnboarding(landing) {
-    setAfterOnboarding(landing);
-    setScreen("onboarding");
+    navigate(`/onboarding?landing=${landing}`);
   }
 
   function handleOnboardingSubmit(name) {
     setUser({ id: makeLocalId("user"), name });
-    if (afterOnboarding === "journal") {
-      goShell("journal");
+    if (searchParams.get("landing") === "journal") {
+      navigate("/journal");
     } else {
-      setScreen("location");
+      navigate("/location");
     }
   }
 
   function handleLocationMatched() {
     setVisit(createVisit());
-    if (returnTo) {
-      goShell(returnTo.activeTab, returnTo.subScreen);
-    } else {
-      goShell("home");
-    }
-    setReturnTo(null);
+    navigate(location.state?.returnTo || "/home", { replace: true });
   }
 
-  function retryLocation(landing = null) {
-    setReturnTo(landing);
-    setScreen("location");
-  }
-
-  function retryLocationFromOverlay() {
-    retryLocation({ activeTab, subScreen });
+  function retryLocation(returnTo = location.pathname) {
+    navigate("/location", { state: { returnTo } });
   }
 
   function handleExpireSession() {
-    setVisit((v) => expireVisit(v));
+    setVisit((current) => expireVisit(current));
   }
 
   function handleUpdateUserName(name) {
@@ -97,155 +100,216 @@ export default function App() {
       createdAt: Date.now(),
       ...data,
     };
-    setEntries((prev) => [entry, ...prev]);
+    setEntries((previous) => [entry, ...previous]);
     return entry;
   }
 
   function updateEntry(id, patch) {
-    setEntries((prev) =>
-      prev.map((e) => (e.id === id ? { ...e, ...patch } : e)),
+    setEntries((previous) =>
+      previous.map((entry) =>
+        entry.id === id ? { ...entry, ...patch } : entry,
+      ),
     );
   }
 
   function openAnimal(animalId) {
     const existing = entries.find(
-      (e) => e.type === "featured" && e.animalId === animalId,
+      (entry) => entry.type === "featured" && entry.animalId === animalId,
     );
-    if (existing) {
-      setSubScreen({ type: "entry", id: existing.id });
-    } else {
-      setSubScreen({ type: "animal", id: animalId });
-    }
+    navigate(existing ? `/entry/${existing.id}` : `/animal/${animalId}`);
   }
 
-  //---------------------------------------------------------------------
-  // ---- top-level (pre-shell) screens ----
-
-  if (screen === "splash") {
+  function renderShell(page, activeTab) {
     return (
-      <Splash
-        onStart={() => startOnboarding("location")}
-        onOpenJournal={() =>
-          user ? goShell("journal") : startOnboarding("journal")
-        }
-      />
+      <UserRoute user={user}>
+        <Shell activeTab={activeTab} onChange={goTab}>
+          {page}
+        </Shell>
+      </UserRoute>
     );
   }
 
-  if (screen === "onboarding") {
-    return (
-      <Onboarding
-        onBack={() => setScreen("splash")}
-        onSubmit={handleOnboardingSubmit}
-      />
-    );
-  }
-
-  if (screen === "location") {
-    return (
-      <LocationCheck
-        onBack={() =>
-          returnTo
-            ? goShell(returnTo.activeTab, returnTo.subScreen)
-            : goShell(active ? "home" : "journal")
-        }
-        onMatched={handleLocationMatched}
-        onOpenJournal={() => goShell("journal")}
-      />
-    );
-  }
-
-  //---------------------------------------------------------------------
-  // ---- shell (home / explore / journal / more + overlays) ----
-
-  let overlay = null;
-  if (subScreen?.type === "animal") {
-    const animal = getAnimalById(subScreen.id);
-    overlay = (
-      <AnimalDetail
-        animal={animal}
-        active={active}
-        onBack={() => setSubScreen(null)}
-        onGoExplore={() => setSubScreen(null)}
-        onGoJournal={() => goShell("journal")}
-        onStartVisit={retryLocationFromOverlay}
-        onSave={saveEntry}
-      />
-    );
-  } else if (subScreen?.type === "custom") {
-    overlay = (
-      <CustomResearch
-        active={active}
-        onBack={() => setSubScreen(null)}
-        onGoExplore={() => setSubScreen(null)}
-        onGoJournal={() => goShell("journal")}
-        onStartVisit={retryLocationFromOverlay}
-        onSave={saveEntry}
-      />
-    );
-  } else if (subScreen?.type === "entry") {
-    const entry = entries.find((e) => e.id === subScreen.id);
-    overlay = entry ? (
-      <EntryDetail
-        entry={entry}
-        onBack={() => setSubScreen(null)}
-        onUpdate={updateEntry}
-      />
-    ) : null;
-  }
-
-  if (overlay) {
-    return <div className="min-h-screen">{overlay}</div>;
-  }
-
-  //---------------------------------------------------------------------
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="flex-1">
-        {activeTab === "home" && (
+    <Routes>
+      <Route
+        path="/"
+        element={<Navigate to={user ? "/home" : "/splash"} replace />}
+      />
+      <Route
+        path="/splash"
+        element={
+          <Splash
+            onStart={() => startOnboarding("location")}
+            onOpenJournal={() =>
+              user ? navigate("/journal") : startOnboarding("journal")
+            }
+          />
+        }
+      />
+      <Route
+        path="/onboarding"
+        element={
+          <Onboarding
+            onBack={() => navigate("/splash")}
+            onSubmit={handleOnboardingSubmit}
+          />
+        }
+      />
+      <Route
+        path="/location"
+        element={
+          <LocationCheck
+            onBack={() =>
+              navigate(
+                location.state?.returnTo || (active ? "/home" : "/journal"),
+              )
+            }
+            onMatched={handleLocationMatched}
+            onOpenJournal={() => navigate("/journal")}
+          />
+        }
+      />
+      <Route
+        path="/home"
+        element={renderShell(
           <Home
             user={user}
             visit={visit}
             active={active}
             entries={entries}
             onOpenAnimal={openAnimal}
-            onGoExplore={() => setActiveTab("explore")}
-            onGoJournal={() => setActiveTab("journal")}
-            onOpenProfile={() => setActiveTab("more")}
-            onRetryLocation={() => retryLocation()}
-          />
+            onGoExplore={() => navigate("/explore")}
+            onGoJournal={() => navigate("/journal")}
+            onOpenProfile={() => navigate("/more")}
+            onRetryLocation={() => retryLocation("/home")}
+          />,
+          "home",
         )}
-        {activeTab === "explore" && (
+      />
+      <Route
+        path="/explore"
+        element={renderShell(
           <Explore
             entries={entries}
             active={active}
             onOpenAnimal={openAnimal}
-            onCustomResearch={() => setSubScreen({ type: "custom" })}
-            onRetryLocation={() => retryLocation()}
-            onGoJournal={() => setActiveTab("journal")}
-            onBack={() => setActiveTab("home")}
-          />
+            onCustomResearch={() => navigate("/research/custom")}
+            onRetryLocation={() => retryLocation("/home")}
+            onGoJournal={() => navigate("/journal")}
+            onBack={() => navigate("/home")}
+          />,
+          "explore",
         )}
-        {activeTab === "journal" && (
+      />
+      <Route
+        path="/journal"
+        element={renderShell(
           <Journal
             entries={entries}
             active={active}
-            onOpenEntry={(id) => setSubScreen({ type: "entry", id })}
-            onRetryLocation={() => retryLocation()}
-          />
+            onOpenEntry={(id) => navigate(`/entry/${id}`)}
+            onRetryLocation={() => retryLocation("/journal")}
+          />,
+          "journal",
         )}
-        {activeTab === "more" && (
+      />
+      <Route
+        path="/more"
+        element={renderShell(
           <More
             user={user}
             visit={visit}
             active={active}
-            onRetryLocation={() => retryLocation()}
+            onRetryLocation={() => retryLocation("/more")}
             onExpireSession={handleExpireSession}
             onUpdateUser={handleUpdateUserName}
-          />
+          />,
+          "more",
         )}
-      </div>
-      <BottomNav current={activeTab} onChange={setActiveTab} />
+      />
+      <Route
+        path="/animal/:id"
+        element={
+          <UserRoute user={user}>
+            <AnimalRoute
+              active={active}
+              onBack={() => navigate(-1)}
+              onGoExplore={() => navigate("/explore")}
+              onGoJournal={() => navigate("/journal")}
+              onStartVisit={() => retryLocation(location.pathname)}
+              onSave={saveEntry}
+            />
+          </UserRoute>
+        }
+      />
+      <Route
+        path="/research/custom"
+        element={
+          <UserRoute user={user}>
+            <CustomResearch
+              active={active}
+              onBack={() => navigate(-1)}
+              onGoExplore={() => navigate("/explore")}
+              onGoJournal={() => navigate("/journal")}
+              onStartVisit={() => retryLocation(location.pathname)}
+              onSave={saveEntry}
+            />
+          </UserRoute>
+        }
+      />
+      <Route
+        path="/entry/:id"
+        element={
+          <UserRoute user={user}>
+            <EntryRoute
+              entries={entries}
+              onBack={() => navigate(-1)}
+              onUpdate={updateEntry}
+            />
+          </UserRoute>
+        }
+      />
+      <Route
+        path="*"
+        element={<Navigate to={user ? "/home" : "/splash"} replace />}
+      />
+    </Routes>
+  );
+}
+
+function AnimalRoute({
+  active,
+  onBack,
+  onGoExplore,
+  onGoJournal,
+  onStartVisit,
+  onSave,
+}) {
+  const { id } = useParams();
+  const animal = getAnimalById(id);
+  if (!animal) return <Navigate to="/explore" replace />;
+  return (
+    <div className="min-h-screen">
+      <AnimalDetail
+        animal={animal}
+        active={active}
+        onBack={onBack}
+        onGoExplore={onGoExplore}
+        onGoJournal={onGoJournal}
+        onStartVisit={onStartVisit}
+        onSave={onSave}
+      />
+    </div>
+  );
+}
+
+function EntryRoute({ entries, onBack, onUpdate }) {
+  const { id } = useParams();
+  const entry = entries.find((item) => item.id === id);
+  if (!entry) return <Navigate to="/journal" replace />;
+  return (
+    <div className="min-h-screen">
+      <EntryDetail entry={entry} onBack={onBack} onUpdate={onUpdate} />
     </div>
   );
 }

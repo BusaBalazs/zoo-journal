@@ -7,7 +7,7 @@ import {
 } from "../components/icons";
 import { ZOO, isWithinZoo } from "../utils/session";
 import { useLanguage } from "../i18n/LanguageContext";
-import {icons, bg} from "../assets"
+import { icons, bg } from "../assets";
 
 //-----------------------------------------------------------------------
 const STEPS = {
@@ -66,9 +66,7 @@ export default function LocationCheck({ onBack, onMatched, onOpenJournal }) {
       </div>
 
       <div className="flex-1 px-6 pt-4 pb-8 flex flex-col items-center text-center relative">
-     
-          <img src={icons.map} className="w-20 h-20 mb-10 " />
-        
+        <img src={icons.map} className="w-20 h-20 mb-10 " />
 
         {(step === STEPS.idle || step === STEPS.checking) && (
           <>
