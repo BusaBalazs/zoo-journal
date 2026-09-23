@@ -113,7 +113,7 @@ export default function Home({
 
         <button
           onClick={onGoExplore}
-          className="w-full bg-[color:var(--ochre)]/20 border border-[color:var(--ochre)]/25 rounded-2xl p-4 flex items-center gap-3 text-left hover:bg-[color:var(--ochre)]/15 transition-colors"
+          className="w-full bg-[color:var(--ochre)]/30 border border-[color:var(--ochre)]/25 rounded-2xl p-4 flex items-center gap-3 text-left hover:bg-[color:var(--ochre)]/15 transition-colors"
         >
           <span className="w-10 h-10 rounded-xl  text-[var(--ochre-deep)] flex items-center justify-center shrink-0">
             <IconSparkle className="w-5 h-5" />

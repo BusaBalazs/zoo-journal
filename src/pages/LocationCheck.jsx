@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   IconArrowLeft,
-  IconMap,
   IconClock,
   IconShield,
   IconBook,

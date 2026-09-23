@@ -1,4 +1,4 @@
-import { IconArrowLeft } from './icons'
+import { IconArrowLeft } from "./icons";
 
 export default function Header({ title, onBack, right, center }) {
   return (
@@ -15,9 +15,13 @@ export default function Header({ title, onBack, right, center }) {
         ) : (
           <div className="w-2" />
         )}
-        {center || <h1 className="font-display text-base text-ink flex-1 truncate">{title}</h1>}
+        {center || (
+          <h1 className="font-display text-base text-ink flex-1 truncate">
+            {title}
+          </h1>
+        )}
         {right}
       </div>
     </header>
-  )
+  );
 }

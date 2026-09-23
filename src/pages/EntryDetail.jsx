@@ -10,18 +10,21 @@ import {
   IconCamera,
   IconPin,
 } from '../components/icons'
-import { getAnimalById } from '../data/animals'
+import { getAnimalById, getAnimalObservationOptions, getAnimalText, getAnimalName } from '../data/animals'
 import { ZOO } from '../utils/session'
+import { useLanguage } from '../i18n/LanguageContext'
 
 const ART = { lion: LionArt, elephant: ElephantArt }
 const PHOTO = { lion: '/images/landing-lion.jpg' }
 
-function formatObservedAt(ts) {
+function formatObservedAt(ts, language) {
   const d = new Date(ts)
   const today = new Date()
-  const time = d.toLocaleTimeString('hu-HU', { hour: '2-digit', minute: '2-digit' })
-  if (d.toDateString() === today.toDateString()) return `Ma, ${time}`
-  return `${d.toLocaleDateString('hu-HU', { month: 'short', day: 'numeric' })}, ${time}`
+  const locale = { hu: 'hu-HU', en: 'en-US', de: 'de-DE' }[language] || 'hu-HU'
+  const todayLabel = { hu: 'Ma', en: 'Today', de: 'Heute' }[language] || 'Ma'
+  const time = d.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })
+  if (d.toDateString() === today.toDateString()) return `${todayLabel}, ${time}`
+  return `${d.toLocaleDateString(locale, { month: 'short', day: 'numeric' })}, ${time}`
 }
 
 export default function EntryDetail({ entry, onBack, onUpdate }) {
@@ -30,11 +33,17 @@ export default function EntryDetail({ entry, onBack, onUpdate }) {
   const [saved, setSaved] = useState(false)
   const [expanded, setExpanded] = useState(false)
   const fileRef = useRef(null)
+  const { language, t } = useLanguage()
 
   const animal = entry.type === 'featured' ? getAnimalById(entry.animalId) : null
   const Art = entry.type === 'featured' ? ART[entry.animalId] : null
   const stockPhoto = entry.type === 'featured' ? PHOTO[entry.animalId] : null
   const heroPhoto = photo || stockPhoto
+  const animalName = animal ? getAnimalName(animal, language) : entry.animalName
+  const animalOptions = animal ? getAnimalObservationOptions(animal, language) : []
+  const observation = entry.observationId
+    ? animalOptions.find((option) => option.id === entry.observationId)
+    : null
 
   const dirty = notes !== (entry.notes || '') || photo !== (entry.photo || null)
 
@@ -65,7 +74,7 @@ export default function EntryDetail({ entry, onBack, onUpdate }) {
 
         <button
           onClick={onBack}
-          aria-label="Vissza"
+          aria-label={t('back')}
           className="absolute top-4 left-4 w-10 h-10 rounded-full bg-[color:white]/85 backdrop-blur-sm flex items-center justify-center text-ink shadow-sm"
         >
           <IconArrowLeft className="w-5 h-5" />
@@ -73,7 +82,7 @@ export default function EntryDetail({ entry, onBack, onUpdate }) {
 
         <button
           onClick={() => fileRef.current?.click()}
-          aria-label="Fotó cseréje"
+          aria-label={t('replacePhoto')}
           className="absolute bottom-6 right-4 w-9 h-9 rounded-full bg-[color:white]/85 backdrop-blur-sm flex items-center justify-center text-[var(--green-deep)] shadow-sm"
         >
           <IconCamera className="w-4 h-4" />
@@ -84,14 +93,14 @@ export default function EntryDetail({ entry, onBack, onUpdate }) {
       </div>
 
       <div className="flex-1 px-6 pt-4 pb-8">
-        <h1 className="font-display text-3xl text-ink leading-tight">{entry.animalName}</h1>
+        <h1 className="font-display text-3xl text-ink leading-tight">{animalName}</h1>
         {entry.type === 'featured' && animal ? (
           <p className="text-ink-soft italic mb-2">{animal.scientificName}</p>
         ) : (
           entry.animalType && <p className="text-ink-soft mb-2">{entry.animalType}</p>
         )}
         <p className="text-sm text-ink-soft mb-5 flex items-center gap-1.5 flex-wrap">
-          <span>Megfigyelve: {formatObservedAt(entry.createdAt)}</span>
+          <span>{t('observedAt')}: {formatObservedAt(entry.createdAt, language)}</span>
           <span className="inline-flex items-center gap-1">
             <IconPin className="w-3.5 h-3.5" />
             {ZOO.name}
@@ -100,12 +109,12 @@ export default function EntryDetail({ entry, onBack, onUpdate }) {
 
         <div className="flex items-center justify-between border-b border-[var(--rule)] mb-5">
           <button className="pb-2.5 text-sm font-bold text-[var(--green-deep)] border-b-2 border-[var(--green-deep)] -mb-px">
-            Főbb infók
+            {t('mainInfo')}
           </button>
           {entry.type === 'featured' && animal && (
             <button
               onClick={() => setExpanded((v) => !v)}
-              aria-label="Több információ"
+              aria-label={t('moreInformation')}
               className={`mb-1.5 text-ink-soft transition-transform ${expanded ? 'rotate-180' : ''}`}
             >
               <IconChevronDown className="w-5 h-5" />
@@ -116,12 +125,12 @@ export default function EntryDetail({ entry, onBack, onUpdate }) {
         {expanded && entry.type === 'featured' && animal && (
           <div className="rise-in grid grid-cols-1 gap-2 mb-5 text-sm">
             <div className="bg-[var(--paper)] rounded-xl p-3">
-              <p className="text-ink-soft text-xs mb-0.5">Élőhely</p>
-              <p className="text-ink">{animal.habitat}</p>
+              <p className="text-ink-soft text-xs mb-0.5">{t('habitat')}</p>
+              <p className="text-ink">{getAnimalText(animal, 'habitat', language)}</p>
             </div>
             <div className="bg-[var(--paper)] rounded-xl p-3">
-              <p className="text-ink-soft text-xs mb-0.5">Táplálkozás</p>
-              <p className="text-ink">{animal.diet}</p>
+              <p className="text-ink-soft text-xs mb-0.5">{t('dietLabel')}</p>
+              <p className="text-ink">{getAnimalText(animal, 'diet', language)}</p>
             </div>
           </div>
         )}
@@ -132,21 +141,21 @@ export default function EntryDetail({ entry, onBack, onUpdate }) {
               <IconQuestion className="w-4.5 h-4.5" />
             </span>
             <div>
-              <p className="font-bold text-ink">Megfigyelés</p>
-              <p className="text-ink font-medium">{entry.observation}</p>
+              <p className="font-bold text-ink">{t('observed')}</p>
+              <p className="text-ink font-medium">{observation?.label || entry.observation}</p>
               {entry.learnedFacts && (
-                <p className="text-sm text-ink-soft mt-1 leading-relaxed">{entry.learnedFacts}</p>
+                <p className="text-sm text-ink-soft mt-1 leading-relaxed">{observation?.note || entry.learnedFacts}</p>
               )}
             </div>
           </div>
         )}
 
-        <p className="font-bold text-ink mb-2">Saját Jegyzetem</p>
+        <p className="font-bold text-ink mb-2">{t('myNote')}</p>
         <textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           rows={3}
-          placeholder="Mit vettél észre? Bármi, amit meg szeretnél jegyezni…"
+          placeholder={t('notePlaceholder')}
           className="w-full px-4 py-3 rounded-2xl border border-[var(--rule)] bg-[var(--paper-raised)] text-ink placeholder:text-ink-soft/60 focus:border-[var(--green-mid)] outline-none resize-none mb-6"
         />
 
@@ -156,8 +165,8 @@ export default function EntryDetail({ entry, onBack, onUpdate }) {
               <IconBulb className="w-4.5 h-4.5" />
             </span>
             <div>
-              <p className="font-bold text-ink">Mit Tanultam</p>
-              <p className="text-sm text-ink-soft leading-relaxed">{animal.interestingFact}</p>
+              <p className="font-bold text-ink">{t('learned')}</p>
+              <p className="text-sm text-ink-soft leading-relaxed">{getAnimalText(animal, 'interestingFact', language)}</p>
             </div>
           </div>
         )}
@@ -167,7 +176,7 @@ export default function EntryDetail({ entry, onBack, onUpdate }) {
           disabled={!dirty}
           className="w-full py-3.5 rounded-full bg-[var(--green-mid)] text-white font-semibold disabled:opacity-45 hover:bg-[color:var(--green-mid)]/90 transition-colors flex items-center justify-center gap-2"
         >
-          {saved ? 'Mentve' : 'Szerkesztés Mentése'}
+          {saved ? t('saved') : t('saveEdits')}
           <IconCheck className="w-4 h-4" />
         </button>
       </div>

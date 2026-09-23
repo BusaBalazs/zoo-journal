@@ -1,12 +1,16 @@
 import { LionArt, ElephantArt } from './creatures'
 import { IconChevronRight, IconCheck } from './icons'
-
+import { animalCards } from '../assets'
+import { getAnimalName } from '../data/animals'
+import { useLanguage } from '../i18n/LanguageContext'
 const ART = { lion: LionArt, elephant: ElephantArt }
-const PHOTO = { lion: '/images/landing-lion.jpg' }
 
-export default function AnimalListRow({ animal, observed, onClick }) {
-  const Art = ART[animal.art]
-  const photo = PHOTO[animal.art]
+
+export default function AnimalListRow({ animal, observed, onClick, photoSrc }) {
+
+  const photo = animalCards[photoSrc]
+  const { language } = useLanguage()
+  const animalName = getAnimalName(animal, language)
 
   return (
     <button
@@ -14,11 +18,11 @@ export default function AnimalListRow({ animal, observed, onClick }) {
       className="w-full text-left bg-[var(--paper-raised)] rounded-2xl overflow-hidden shadow-sm border border-[var(--rule)] hover:shadow-md transition-shadow"
     >
       <div className="h-28 bg-[color:var(--green-line)]/40">
-        {photo ? <img src={photo} alt="" className="w-full h-full object-cover" /> : <Art className="w-full h-full" />}
+        {photo ? <img src={photo} alt="" className="w-full h-full object-cover" /> : null}
       </div>
       <div className="p-4 flex items-center gap-3">
         <div className="flex-1 min-w-0">
-          <p className="font-bold text-lg text-ink truncate leading-tight">{animal.name}</p>
+          <p className="font-bold text-lg text-ink truncate leading-tight">{animalName}</p>
           <p className="text-sm text-ink-soft italic truncate">{animal.scientificName}</p>
         </div>
         <span

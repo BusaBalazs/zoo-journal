@@ -1,0 +1,2 @@
+- Minden állatkertnek külön oldala lesz.
+- A felhasználónak elküldök egy qr kódot és egy linket emailen az adott állatkerti naplójához, így ha több naplót is vezet, meglesz neki és lehet olyat is csinálni, hogy az oldalt kirakni a telefon képernyőjére, tényleg mintha egy applikáció lenne. Olyan nagyon sok naplója úgysem lesz az áátlag felhasználónak, max 2-3.

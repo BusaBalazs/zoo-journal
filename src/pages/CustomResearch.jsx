@@ -3,24 +3,24 @@ import Header from '../components/Header'
 import PhotoPicker from '../components/PhotoPicker'
 import SuccessView from '../components/SuccessView'
 import RestrictedGate from '../components/RestrictedGate'
-import { ANIMAL_TYPES, DIET_OPTIONS, OBSERVED_OPTIONS } from '../data/animals'
+import { ANIMAL_TYPES, DIET_OPTIONS, OBSERVED_OPTIONS, getOptionLabel } from '../data/animals'
 import { useLanguage } from '../i18n/LanguageContext'
 
-function ChipGroup({ options, value, onChange }) {
+function ChipGroup({ options, value, onChange, language }) {
   return (
     <div className="flex flex-wrap gap-2">
       {options.map((opt) => (
         <button
-          key={opt}
+          key={opt.id}
           type="button"
-          onClick={() => onChange(opt)}
+          onClick={() => onChange(opt.id)}
           className={`text-sm px-3.5 py-2 rounded-full border transition-colors ${
-            value === opt
+            value === opt.id
               ? 'bg-[var(--green-deep)] border-[var(--green-deep)] text-white'
               : 'bg-[var(--paper-raised)] border-[var(--rule)] text-ink hover:border-[var(--green-mid)]'
           }`}
         >
-          {opt}
+          {getOptionLabel(opt, language)}
         </button>
       ))}
     </div>
@@ -35,7 +35,7 @@ export default function CustomResearch({ active, onBack, onGoExplore, onGoJourna
   const [notes, setNotes] = useState('')
   const [photo, setPhoto] = useState(null)
   const [savedEntry, setSavedEntry] = useState(null)
-  const { t } = useLanguage()
+  const { language, t } = useLanguage()
 
   if (savedEntry) {
     return <SuccessView entry={savedEntry} onContinueResearch={onGoExplore} onOpenJournal={onGoJournal} />
@@ -58,9 +58,9 @@ export default function CustomResearch({ active, onBack, onGoExplore, onGoJourna
       animalId: null,
       animalName: name.trim(),
       type: 'custom',
-      animalType: type,
-      diet,
-      observation: observed,
+      animalType: getOptionLabel(ANIMAL_TYPES.find((option) => option.id === type), language),
+      diet: getOptionLabel(DIET_OPTIONS.find((option) => option.id === diet), language),
+      observation: getOptionLabel(OBSERVED_OPTIONS.find((option) => option.id === observed), language),
       learnedFacts: null,
       photo,
       notes: notes.trim(),
@@ -91,17 +91,17 @@ export default function CustomResearch({ active, onBack, onGoExplore, onGoJourna
 
         <div>
           <p className="text-sm font-medium text-ink-soft mb-2">{t('animalType')}</p>
-          <ChipGroup options={ANIMAL_TYPES} value={type} onChange={setType} />
+          <ChipGroup options={ANIMAL_TYPES} value={type} onChange={setType} language={language} />
         </div>
 
         <div>
           <p className="text-sm font-medium text-ink-soft mb-2">{t('diet')}</p>
-          <ChipGroup options={DIET_OPTIONS} value={diet} onChange={setDiet} />
+          <ChipGroup options={DIET_OPTIONS} value={diet} onChange={setDiet} language={language} />
         </div>
 
         <div>
           <p className="text-sm font-medium text-ink-soft mb-2">{t('observed')}</p>
-          <ChipGroup options={OBSERVED_OPTIONS} value={observed} onChange={setObserved} />
+          <ChipGroup options={OBSERVED_OPTIONS} value={observed} onChange={setObserved} language={language} />
         </div>
 
         <div>
