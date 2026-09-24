@@ -115,7 +115,11 @@ export default function CustomResearch({ active, onBack, onGoExplore, onGoJourna
           />
         </div>
 
-        <PhotoPicker photo={photo} onChange={setPhoto} label={`${t('customResearch')} (${t('optional')})`} />
+        <PhotoPicker
+          photo={photo}
+          onChange={setPhoto}
+          label={`${t('customResearch')} (${t('optional')})`}
+        />
 
         <button
           onClick={handleSave}

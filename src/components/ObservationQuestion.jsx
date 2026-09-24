@@ -28,10 +28,10 @@ export default function ObservationQuestion({ options, onAnswer, initialAnswer }
             key={opt.id}
             type="button"
             onClick={() => choose(opt)}
-            className={`w-full flex items-center gap-3 pl-3 pr-4 py-3 rounded-2xl border text-left transition-colors ${
+            className={`w-full flex items-center gap-3 pl-3 pr-4 py-3 rounded-2xl border text-left transition-colors shadow-sm ${
               isSelected
                 ? 'bg-[color:var(--green-mid)]/10 border-[var(--green-mid)]'
-                : 'bg-[var(--paper-raised)] border-[var(--rule)] hover:border-[var(--green-mid)]'
+                : 'bg-[var(--paper)] border-[var(--rule)] hover:border-[var(--green-mid)]'
             }`}
           >
             <span

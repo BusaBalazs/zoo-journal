@@ -105,7 +105,7 @@ export const ANIMALS = [
   },
   {
     id: "elephant",
-    art: "elephant",
+
     name: {
       hu: "Elefánt",
       en: "Elephant",

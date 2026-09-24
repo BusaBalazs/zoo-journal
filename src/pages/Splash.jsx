@@ -1,4 +1,4 @@
-import { IconBook } from "../components/icons";
+import { IconBook, IconBpZoo } from "../components/icons";
 import { icons, bg } from "../assets/index.js";
 
 import { useLanguage } from "../i18n/LanguageContext";
@@ -24,8 +24,8 @@ export default function Splash({ onStart, onOpenJournal }) {
 
       <div className="relative flex-1 flex flex-col justify-end px-6 pb-9 pt-8">
         <div className="flex items-center gap-2 mb-auto">
-          <span className="w-20 h-20 rounded-full bg-[white]/15 backdrop-blur-xs flex items-center justify-center p-2">
-            <img src={icons.zoo} />
+          <span className="w-20 h-20 backdrop-blur-xs flex items-center justify-center p-2">
+            <IconBpZoo />
           </span>
 
           <label className="ml-auto">

@@ -4,12 +4,16 @@ import leafIcon from "./icons/leaf.png";
 import zooIcon from "./icons/zoo.png";
 import mapIcon from "./icons/map.png";
 import diaryIcon from "./icons/research_journal.png";
+import binocularsIcon from "./icons/binoculars.png";
+import cameraIcon from "./icons/camera.png";
 
 export const icons = {
   zoo: zooIcon,
   leaf: leafIcon,
   map: mapIcon,
   diary: diaryIcon,
+  binoculars: binocularsIcon,
+  camera: cameraIcon,
 };
 
 //-----------------------------------------------------------

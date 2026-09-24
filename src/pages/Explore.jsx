@@ -2,10 +2,10 @@ import { useState } from "react";
 import AnimalListRow from "../components/AnimalListRow";
 import RestrictedGate from "../components/RestrictedGate";
 import { ANIMALS, getAnimalName } from "../data/animals";
-import { IconSearch, IconSparkle, IconChevronRight } from "../components/icons";
+import { IconSearch, IconSparkle, IconChevronRight,  IconArrowLeft } from "../components/icons";
 import { useLanguage } from "../i18n/LanguageContext";
 
-import { IconArrowLeft } from "../components/icons";
+
 
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
