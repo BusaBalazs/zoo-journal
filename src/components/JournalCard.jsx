@@ -25,7 +25,7 @@ export default function JournalCard({ entry, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="text-left w-full bg-[var(--paper-raised)] border border-[var(--rule)] rounded-2xl p-4 flex gap-3 hover:border-[var(--green-mid)] transition-colors"
+      className="text-left w-full bg-[var(--paper-raised)]/95 border border-[var(--rule)] rounded-2xl p-4 flex gap-3 hover:border-[var(--green-mid)] transition-colors"
     >
       <div className="w-25 h-25 rounded-xl overflow-hidden shrink-0 bg-[color:var(--green-line)]/40">
     

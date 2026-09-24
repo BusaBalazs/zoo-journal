@@ -112,6 +112,11 @@ export default function App() {
     );
   }
 
+  function deleteEntry(id) {
+    setEntries((previous) => previous.filter((entry) => entry.id !== id));
+    navigate("/journal");
+  }
+
   function openAnimal(animalId) {
     const existing = entries.find(
       (entry) => entry.type === "featured" && entry.animalId === animalId,
@@ -265,6 +270,7 @@ export default function App() {
               entries={entries}
               onBack={() => navigate(-1)}
               onUpdate={updateEntry}
+              onDelete={deleteEntry}
             />
           </UserRoute>
         }
@@ -303,13 +309,18 @@ function AnimalRoute({
   );
 }
 
-function EntryRoute({ entries, onBack, onUpdate }) {
+function EntryRoute({ entries, onBack, onUpdate, onDelete }) {
   const { id } = useParams();
   const entry = entries.find((item) => item.id === id);
   if (!entry) return <Navigate to="/journal" replace />;
   return (
     <div className="min-h-screen">
-      <EntryDetail entry={entry} onBack={onBack} onUpdate={onUpdate} />
+      <EntryDetail
+        entry={entry}
+        onBack={onBack}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+      />
     </div>
   );
 }

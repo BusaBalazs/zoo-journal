@@ -7,6 +7,7 @@ import {
   IconSparkle,
   IconUser,
   IconPin,
+  IconBpZoo,
 } from "../components/icons";
 import { ZOO, remainingLabel } from "../utils/session";
 import { useLanguage } from "../i18n/LanguageContext";
@@ -44,15 +45,15 @@ export default function Home({
   //--------------------------------------------------------------------------
   return (
     <div
-      className="max-w-md pb-5"
+      className="max-w-md pb-5 min-h-[calc(100vh-56px)]"
       style={{
         background:
           "linear-gradient(to bottom, rgb(231, 238, 240) 40%, rgb(178, 197, 203) 100%)",
       }}
     >
-      <div className="sticky top-0 mb-10 px-4 py-2 flex justify-between items-center bg-[var(--paper-raised)] w-full rounded-b-2xl shadow-sm">
-        <span className="w-20 h-20 rounded-full bg-[white]/15 backdrop-blur-xs flex items-center justify-center p-2">
-          <img src={icons.zoo} />
+      <div className="sticky top-0 mb-10 px-4  flex justify-between items-center bg-[var(--paper-raised)] w-full rounded-b-xl shadow-sm">
+        <span className="relative left-[-20px] w-20 h-20 backdrop-blur-xs flex items-center justify-center">
+          <IconBpZoo />
         </span>
         <button
           onClick={onOpenProfile}

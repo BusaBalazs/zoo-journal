@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import WaveDivider from "../components/WaveDivider";
+import Modal from "../components/Modal";
 import { LionArt, ElephantArt, LeafBadgeArt } from "../components/creatures";
 import {
   IconArrowLeft,
@@ -40,12 +41,13 @@ function formatObservedAt(ts, language) {
 
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
-export default function EntryDetail({ entry, onBack, onUpdate }) {
+export default function EntryDetail({ entry, onBack, onUpdate, onDelete }) {
   const [notes, setNotes] = useState(entry.notes || "");
   const [photo, setPhoto] = useState(entry.photo || null);
   const [saved, setSaved] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [photoOpen, setPhotoOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const fileRef = useRef(null);
   //-----------------------------------------------------------------
   const { language, t } = useLanguage();
@@ -288,7 +290,41 @@ export default function EntryDetail({ entry, onBack, onUpdate }) {
           {saved ? t("saved") : t("saveEdits")}
           <IconCheck className="w-4 h-4" />
         </button>
+        <button
+          type="button"
+          onClick={() => setDeleteOpen(true)}
+          className="w-full mt-3 py-3.5 rounded-full border border-[var(--clay)] text-[var(--clay)] font-semibold hover:bg-[color:var(--clay)]/10 transition-colors"
+        >
+          {t("deleteEntry")}
+        </button>
       </div>
+
+      {deleteOpen && (
+        <Modal
+          title={t("deleteEntryTitle")}
+          onClose={() => setDeleteOpen(false)}
+        >
+          <p className="text-ink-soft leading-relaxed mb-6">
+            {t("deleteEntryBody")}
+          </p>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setDeleteOpen(false)}
+              className="flex-1 py-3 rounded-full border border-[var(--rule)] text-ink font-medium hover:border-[var(--green-mid)] transition-colors"
+            >
+              {t("cancel")}
+            </button>
+            <button
+              type="button"
+              onClick={() => onDelete(entry.id)}
+              className="flex-1 py-3 rounded-full bg-[var(--clay)] text-white font-semibold hover:opacity-90 transition-opacity"
+            >
+              {t("deleteEntry")}
+            </button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

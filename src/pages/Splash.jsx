@@ -1,5 +1,5 @@
 import { IconBook, IconBpZoo } from "../components/icons";
-import { icons, bg } from "../assets/index.js";
+import { bg } from "../assets/index.js";
 
 import { useLanguage } from "../i18n/LanguageContext";
 
