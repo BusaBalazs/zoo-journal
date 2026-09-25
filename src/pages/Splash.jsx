@@ -22,7 +22,7 @@ export default function Splash({ onStart, onOpenJournal }) {
         }}
       />
 
-      <div className="relative flex-1 flex flex-col justify-end px-6 pb-9 pt-8">
+      <div className="relative flex-1 flex flex-col justify-end px-6 pb-24 pt-8">
         <div className="flex items-center gap-2 mb-auto">
           <span className="w-20 h-20 backdrop-blur-xs flex items-center justify-center p-2">
             <IconBpZoo />
@@ -62,13 +62,7 @@ export default function Splash({ onStart, onOpenJournal }) {
           {t("startResearch")}
           <span aria-hidden>→</span>
         </button>
-        <button
-          onClick={onOpenJournal}
-          className="w-full py-3.5 rounded-full border border-white/35 font-medium flex items-center justify-center gap-2 hover:bg-white/10 transition-colors mb-6"
-        >
-          <IconBook className="w-6 h-6" />
-          {t("myJournal")}
-        </button>
+      
       </div>
     </div>
   );

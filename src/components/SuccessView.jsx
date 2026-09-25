@@ -59,9 +59,7 @@ export default function SuccessView({
         <h1 className="font-display text-3xl text-ink mb-2">
           {t("successTitle")}
         </h1>
-        <p className="text-ink-soft mb-8">
-          {t("successBody")}
-        </p>
+        <p className="text-ink-soft mb-8">{t("successBody")}</p>
 
         <div className="w-full bg-[var(--paper)] rounded-2xl p-3.5 flex items-center gap-3 mb-8">
           <div className="w-24 h-24 rounded-xl overflow-hidden shrink-0 bg-[color:var(--green-line)]/40 shadow-sm">
@@ -69,12 +67,11 @@ export default function SuccessView({
           </div>
 
           <div className="flex-1 min-w-0 text-left">
-            <p className="font-bold text-ink truncate text-[1.5rem]">{entry.animalName}</p>
-            <p className="text-xs text-ink-soft italic">
-              {t("todayAt", time)}
+            <p className="font-bold text-ink truncate text-[1.5rem]">
+              {entry.animalName}
             </p>
+            <p className="text-xs text-ink-soft italic">{t("todayAt", time)}</p>
           </div>
-          
         </div>
 
         <button
@@ -86,17 +83,16 @@ export default function SuccessView({
         </button>
         <button
           onClick={onOpenJournal}
-          className="w-full py-3.5 rounded-full border border-[var(--rule)] text-ink font-medium hover:border-[var(--green-mid)] transition-colors mb-8"
+          className="w-full py-3.5 rounded-full  text-ink font-medium bg-[var(--paper)]/50 transition-colors mb-8 backdrop-blur-md"
         >
           {t("openJournal")}
         </button>
-
       </div>
-       <img
-              src={bg.giraffeBg}
-              alt="giraffe decor background"
-              className="absolute left-0 bottom-0 object-contain object-bottom select-none pointer-events-none z-0"
-            />
+      <img
+        src={bg.giraffeBg}
+        alt="giraffe decor background"
+        className="absolute left-0 bottom-0 object-contain select-none pointer-events-none z-0"
+      />
     </div>
   );
 }

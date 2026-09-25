@@ -10,10 +10,11 @@ export default function RestrictedGate({ onRetryLocation, onOpenJournal }) {
   //---------------------------------------------------------------------
   return (
     <section className="bg-[var(--paper-raised)]  min-h-[calc(100vh-56px)]">
-      <div className="max-w-md mx-auto px-6 pt-14 relative overflow-hidden flex flex-col">
-        <div className="relative flex-1 flex flex-col items-center text-center">
-          <img src={icons.map} className="w-20 h-20 mb-10" />
-
+      <div className="w-56 mx-auto bg-[var(--paper)]/45 px-6 pt-8 mb-4 rounded-b-full shadow-lg overflow-hidden">
+        <img src={icons.map} className="w-25 h-25 mx-auto" />
+      </div>
+      <div className="max-w-md mx-auto px-6 relative overflow-hidden flex flex-col">
+        <div className="relative z-20 flex-1 flex flex-col items-center text-center">
           <h1 className="font-display text-2xl text-ink mb-2">
             {t("outsideZoo")}
           </h1>
@@ -28,7 +29,7 @@ export default function RestrictedGate({ onRetryLocation, onOpenJournal }) {
           </button>
           <button
             onClick={onOpenJournal}
-            className="w-full py-3.5 rounded-full border border-[var(--ochre)] text-ink font-medium bg-[var(--paper)]/80 hover:border-[var(--green-mid)] transition-colors flex items-center justify-center gap-2 relative z-20"
+            className="w-full py-2 rounded-full border border-[var(--ochre)] text-ink font-medium bg-[var(--paper)]/80 hover:border-[var(--green-mid)] transition-colors flex items-center justify-center gap-2"
           >
             <img src={icons.diary} className="w-10 h-10" />
             {t("journalOpen")}

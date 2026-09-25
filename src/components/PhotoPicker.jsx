@@ -9,6 +9,7 @@ export default function PhotoPicker({
   onChange,
   label = "Saját kutatási fotó",
 }) {
+  //-------------------------------------------------------------
   const { language } = useLanguage();
   const text =
     language === "en"
@@ -34,6 +35,7 @@ export default function PhotoPicker({
             camera: "Fotó készítése",
             gallery: "Galériából választok",
           };
+  //-------------------------------------------------------------
   const cameraRef = useRef(null);
   const galleryRef = useRef(null);
   const cropRef = useRef(null);
@@ -44,6 +46,7 @@ export default function PhotoPicker({
   const [zoom, setZoom] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
+  //-------------------------------------------------------------
   const cropText =
     language === "en"
       ? {
@@ -69,6 +72,7 @@ export default function PhotoPicker({
             cancel: "Mégse",
           };
 
+  //-------------------------------------------------------------
   useEffect(() => {
     if (!cropRef.current) return undefined;
     const resizeObserver = new ResizeObserver(() => {
@@ -79,6 +83,7 @@ export default function PhotoPicker({
     return () => resizeObserver.disconnect();
   }, [pendingImage]);
 
+  //-------------------------------------------------------------
   function clampPosition(nextPosition, nextZoom = zoom) {
     if (!pendingImage || !cropSize.width) return nextPosition;
     const scale =
@@ -96,6 +101,7 @@ export default function PhotoPicker({
     };
   }
 
+  //-------------------------------------------------------------
   function handleZoom(e) {
     const nextZoom = Number(e.target.value);
     setZoom(nextZoom);
@@ -126,6 +132,7 @@ export default function PhotoPicker({
     e.target.value = "";
   }
 
+  //-------------------------------------------------------------
   function handlePointerDown(e) {
     e.currentTarget.setPointerCapture(e.pointerId);
     dragRef.current = {
@@ -146,17 +153,19 @@ export default function PhotoPicker({
     );
   }
 
+  //-------------------------------------------------------------
   function handlePointerUp(e) {
     if (dragRef.current?.pointerId === e.pointerId) dragRef.current = null;
   }
 
+  //-------------------------------------------------------------
   function handleApply() {
     if (!pendingImage) return;
     const frameWidth = cropRef.current?.clientWidth || cropSize.width;
     if (!frameWidth) return;
     const frameSize = {
       width: frameWidth,
-      height: frameWidth * 861 / 656,
+      height: (frameWidth * 861) / 656,
     };
     const scale =
       Math.max(
@@ -190,15 +199,17 @@ export default function PhotoPicker({
     image.src = pendingImage.src;
   }
 
+  //-------------------------------------------------------------
   function handleCancel() {
     onChange(previousPhotoRef.current || null);
     setPendingImage(null);
   }
 
   //-------------------------------------------------------------
+  //-------------------------------------------------------------
   return (
     <div>
-      <p className="text-sm font-medium text-ink-soft mt-18">{label}</p>
+      <p className="text-sm font-medium text-ink-soft mt-8">{label}</p>
       {pendingImage ? (
         <div className="space-y-4">
           <div>

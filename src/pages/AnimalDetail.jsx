@@ -226,9 +226,9 @@ export default function AnimalDetail({
         )}
 
         {stage === "observe" && (
-          <div className="rise-in px-6 pt-6 ">
-            <div className="w-fit rounded-full mt-8  mb-12 mx-auto">
-              <img src={icons.binoculars} className="w-25 h-20" />
+          <div className="rise-in px-6">
+            <div className="w-56 mx-auto bg-[var(--paper)]/45 px-6 pt-8 mb-4 rounded-b-full shadow-lg overflow-hidden">
+              <img src={icons.binoculars} className="w-30 h-25 mx-auto" />
             </div>
             <h1 className="font-display text-2xl text-ink mb-1.5 text-center">
               {getAnimalText(animal, "observationQuestion", language)}
@@ -249,14 +249,14 @@ export default function AnimalDetail({
         )}
 
         {stage === "photo" && (
-          <div className="rise-in px-6 pt-6 ">
-            <div className="w-fit rounded-full mt-8  mb-12 mx-auto">
-              <img src={icons.camera} className="w-25 h-20" />
+          <div className="rise-in px-6">
+            <div className="w-56 mx-auto bg-[var(--paper)]/45 px-6 pt-8 mb-4 rounded-b-full shadow-lg overflow-hidden">
+              <img src={icons.camera} className="w-25 h-20 mx-auto" />
             </div>
             <h1 className="font-display text-2xl text-ink mb-1.5 text-center">
               {t("takePhoto")}
             </h1>
-            <p className="text-ink-soft mb-6 text-center">{t("photoBody")}</p>
+            <p className="text-ink-soft text-center">{t("photoBody")}</p>
 
             <div className="space-y-5">
               <PhotoPicker
