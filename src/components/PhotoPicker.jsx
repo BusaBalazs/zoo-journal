@@ -311,7 +311,7 @@ export default function PhotoPicker({
           <img
             src={photo}
             alt={text.uploaded}
-            className="w-full h-68 object-cover rounded-2xl border border-[var(--rule)]"
+            className="w-full object-cover rounded-2xl border border-[var(--rule)]"
           />
           <button
             type="button"
@@ -323,21 +323,18 @@ export default function PhotoPicker({
           </button>
         </div>
       ) : (
-        <div className="w-full h-32 rounded-2xl border-2 border-dashed border-[var(--green-mid)] flex flex-col items-center justify-center gap-1.5 text-ink-soft">
-          <IconCamera className="w-6 h-6" />
-          <span className="text-sm">{text.hint}</span>
-        </div>
-      )}
-
-      <div className="flex gap-2 mt-2.5 mt-6">
         <button
           type="button"
           onClick={() => cameraRef.current?.click()}
-          className="flex-1 text-sm font-medium px-3.5 py-2.5 rounded-full border-[1.5px] border-[var(--green-mid)] text-[var(--green-mid)] flex items-center justify-center gap-1.5 hover:bg-[color:var(--green-mid)]/8 transition-colors"
+          className="flex w-full h-32 rounded-2xl border-2 border-dashed border-[var(--green-mid)] flex flex-col items-center justify-center gap-1.5 text-ink-soft"
         >
-          <IconCamera className="w-4 h-4" />
-          {text.camera}
+          <IconCamera className="w-6 h-6" />
+          <span className="text-sm">{text.hint}</span>
         </button>
+      )}
+
+      <div className="flex gap-2 mt-2.5 mt-6">
+   
         <button
           type="button"
           onClick={() => galleryRef.current?.click()}

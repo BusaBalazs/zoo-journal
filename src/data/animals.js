@@ -12,6 +12,7 @@ export const ANIMALS = [
     },
     scientificName: "Panthera leo",
     src: "lionCard",
+    typeId: "mammal",
     intro: {
       hu: "A vadon élő oroszlánok elsősorban Afrikában élnek. Társas ragadozók, amelyek falkákban élnek és együtt vadásznak.",
       en: "Wild lions live mainly in Africa. They are social predators that live in prides and hunt together.",
@@ -113,6 +114,7 @@ export const ANIMALS = [
     },
     scientificName: "Loxodonta africana / Elephas maximus",
     src: "elephantCard",
+    typeId: "mammal",
     intro: {
       hu: "Az elefántok a szárazföld legnagyobb élő emlősei. Rendkívül intelligensek, szoros családi kötelékben élnek, és kiváló memóriájuk van.",
       en: "Elephants are the largest living land mammals. They are highly intelligent, live in close family groups, and have excellent memories.",
@@ -214,6 +216,7 @@ export const ANIMALS = [
     },
     scientificName: "Spheniscidae",
     src: "penguinCard",
+    typeId: "bird",
     intro: {
       hu: "A pingvinek röpképtelen tengeri madarak, amelyek kiválóan alkalmazkodtak a vízi életmódhoz. Idejük nagy részét a tengerben töltik vadászattal.",
       en: "Penguins are flightless seabirds that are highly adapted to life in the water. They spend most of their time at sea hunting.",
@@ -343,6 +346,10 @@ export const DIET_OPTIONS = [
   { id: "fish", label: { hu: "Hal", en: "Fish", de: "Fisch" } },
   { id: "fruit", label: { hu: "Gyümölcs", en: "Fruit", de: "Obst" } },
   { id: "insects", label: { hu: "Rovar", en: "Insects", de: "Insekten" } },
+  {
+    id: "Omnivore",
+    label: { hu: "Mindenevő", en: "Omnivore", de: "Der Allesfresser" },
+  },
   { id: "other", label: { hu: "Egyéb", en: "Other", de: "Andere" } },
   {
     id: "unknown",
@@ -362,4 +369,9 @@ export const OBSERVED_OPTIONS = [
 
 export function getOptionLabel(option, language = "hu") {
   return option?.label?.[language] || option?.label?.hu || "";
+}
+
+export function getAnimalTypeLabel(animal, language = "hu") {
+  const type = ANIMAL_TYPES.find((option) => option.id === animal?.typeId);
+  return getOptionLabel(type, language);
 }

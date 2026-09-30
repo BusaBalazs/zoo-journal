@@ -345,7 +345,7 @@ export function IconBinoculars({ className = "w-5 h-5" }) {
   );
 }
 
-export function IconBpZoo({ className = "w-5 h-5" }) {
+export function IconBpZoo() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -429,6 +429,28 @@ export function IconBpZoo({ className = "w-5 h-5" }) {
           </g>
         </g>
       </g>
+    </svg>
+  );
+}
+
+export function IconTrash({ className = "w-5 h-5" }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} {...base}>
+      <path d="M5 7h14" />
+      <path d="M9.5 7V5.2c0-.7.6-1.2 1.3-1.2h2.4c.7 0 1.3.5 1.3 1.2V7" />
+      <path d="M7 7l.8 12c.05.9.8 1.6 1.7 1.6h5c.9 0 1.65-.7 1.7-1.6L17 7" />
+      <path d="M10.3 11v6M13.7 11v6" />
+    </svg>
+  );
+}
+
+export function IconFlip({ className = "w-5 h-5" }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} {...base}>
+      <path d="M4.5 9.5a8 8 0 0 1 13.6-4.3l1.9 1.9" />
+      <path d="M15.7 5.6h4.3V1.3" />
+      <path d="M19.5 14.5a8 8 0 0 1-13.6 4.3l-1.9-1.9" />
+      <path d="M8.3 18.4H4V22.7" />
     </svg>
   );
 }

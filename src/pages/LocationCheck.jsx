@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  IconArrowLeft,
   IconClock,
   IconShield,
   IconBook,
@@ -20,7 +19,7 @@ const STEPS = {
 
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
-export default function LocationCheck({ onBack, onMatched, onOpenJournal }) {
+export default function LocationCheck({ onMatched, onOpenJournal }) {
   const [step, setStep] = useState(STEPS.idle);
   const { t } = useLanguage();
 

@@ -12,9 +12,6 @@ import {
 import { ZOO, remainingLabel } from "../utils/session";
 import { useLanguage } from "../i18n/LanguageContext";
 
-import { icons, animalCards } from "../assets/index.js";
-import p from "../assets/animals/lion_card_bg.webp";
-
 //--------------------------------------------------------------------------
 //--------------------------------------------------------------------------
 export default function Home({

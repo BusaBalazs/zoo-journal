@@ -1,5 +1,3 @@
-import { IconMap, IconBook } from "./icons";
-
 import { useLanguage } from "../i18n/LanguageContext";
 import { icons, bg } from "../assets";
 

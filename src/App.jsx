@@ -145,9 +145,6 @@ export default function App() {
         element={
           <Splash
             onStart={() => startOnboarding("location")}
-            onOpenJournal={() =>
-              user ? navigate("/journal") : startOnboarding("journal")
-            }
           />
         }
       />
@@ -155,7 +152,6 @@ export default function App() {
         path="/onboarding"
         element={
           <Onboarding
-            onBack={() => navigate("/splash")}
             onSubmit={handleOnboardingSubmit}
           />
         }
@@ -164,11 +160,6 @@ export default function App() {
         path="/location"
         element={
           <LocationCheck
-            onBack={() =>
-              navigate(
-                location.state?.returnTo || (active ? "/home" : "/journal"),
-              )
-            }
             onMatched={handleLocationMatched}
             onOpenJournal={() => navigate("/journal")}
           />
@@ -183,7 +174,7 @@ export default function App() {
             active={active}
             entries={entries}
             onOpenAnimal={openAnimal}
-            onGoExplore={() => navigate("/explore")}
+            onGoExplore={() => navigate("/research/custom")}
             onGoJournal={() => navigate("/journal")}
             onOpenProfile={() => navigate("/more")}
             onRetryLocation={() => retryLocation("/home")}
@@ -212,8 +203,9 @@ export default function App() {
           <Journal
             entries={entries}
             active={active}
-            onOpenEntry={(id) => navigate(`/entry/${id}`)}
             onRetryLocation={() => retryLocation("/journal")}
+            onUpdateEntry={updateEntry}
+            onDeleteEntry={deleteEntry}
           />,
           "journal",
         )}

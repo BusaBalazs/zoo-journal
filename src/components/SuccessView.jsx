@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { IconCheck } from "./icons";
 import { bg } from "../assets";
 import { useLanguage } from "../i18n/LanguageContext";
@@ -23,6 +24,49 @@ export default function SuccessView({
   onOpenJournal,
 }) {
   const { language, t } = useLanguage();
+  const confettiRefs = useRef([]);
+
+  useEffect(() => {
+    let active = true;
+    let media;
+    import("gsap").then(({ gsap }) => {
+      if (!active) return;
+      media = gsap.matchMedia();
+      media.add("(prefers-reduced-motion: no-preference)", () => {
+        const pieces = confettiRefs.current.filter(Boolean);
+        const timeline = gsap.timeline();
+        timeline.fromTo(
+          pieces,
+          { opacity: 0, scale: 0, y: 12, rotation: 0 },
+          {
+            opacity: 1,
+            scale: 1.15,
+            y: -10,
+            rotation: (index) => (index % 2 ? 120 : -120),
+            duration: 0.65,
+            ease: "back.out(2.5)",
+            stagger: 0.055,
+          },
+        );
+        timeline.to(
+          pieces,
+          {
+            y: 0,
+            scale: 1,
+            duration: 0.22,
+            ease: "power2.out",
+            stagger: 0.035,
+          },
+          "-=0.18",
+        );
+        return () => timeline.kill();
+      });
+    });
+    return () => {
+      active = false;
+      media?.revert();
+    };
+  }, []);
 
   const stockPhoto = entry.type === "featured" ? PHOTO[entry.animalId] : null;
   const thumb = entry.photo || stockPhoto;
@@ -40,14 +84,16 @@ export default function SuccessView({
           {CONFETTI.map((c, i) => (
             <span
               key={i}
-              className="absolute rounded-full pop-in"
+              ref={(element) => {
+                confettiRefs.current[i] = element;
+              }}
+              className="absolute rounded-full"
               style={{
                 top: c.top,
                 left: c.left,
                 width: c.size,
                 height: c.size,
                 background: c.color,
-                animationDelay: `${i * 60}ms`,
               }}
             />
           ))}

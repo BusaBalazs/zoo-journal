@@ -1,4 +1,8 @@
+import { motion } from "framer-motion";
 import { useLanguage } from "../i18n/LanguageContext";
+import { getAnimalById } from "../data/animals";
+import { animalCards } from "../assets/";
+import { IconFlip } from "./icons";
 
 //---------------------------------------------------------------------
 function formatDate(ts, language, t) {
@@ -10,57 +14,64 @@ function formatDate(ts, language, t) {
 
   const locale = { hu: "hu-HU", en: "en-US", de: "de-DE" }[language];
   const date = d.toLocaleDateString(locale, {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   });
   return t("observedOn", date);
 }
 
 //---------------------------------------------------------------------
-export default function JournalCard({ entry, onClick }) {
+export default function JournalCard({ entry, onClick, isActive = false }) {
   const { language, t } = useLanguage();
-  
+
+  const animal = entry.type === "featured" ? getAnimalById(entry.animalId) : null;
+  const stockPhoto = animal ? animalCards[animal.src] : null;
+  const photo = entry.photo || stockPhoto;
+
   //---------------------------------------------------------------------
   return (
-    <button
+    <motion.button
       onClick={onClick}
-      className="text-left w-full bg-[var(--paper-raised)]/95 border border-[var(--rule)] rounded-2xl p-4 flex gap-3 hover:border-[var(--green-mid)] transition-colors"
+      layoutId={`journal-entry-${entry.id}`}
+      animate={{ opacity: isActive ? 0 : 1 }}
+      transition={{ opacity: { duration: .2 } }}
+      aria-hidden={isActive}
+      tabIndex={isActive ? -1 : 0}
+      style={{ borderRadius: "1rem" }}
+      className="group relative w-full aspect-[656/861] rounded-2xl overflow-hidden shadow-md text-left bg-[color:var(--green-line)]/40 hover:shadow-lg hover:-translate-y-0.5 transition-all"
     >
-      <div className="w-25 h-25 rounded-xl overflow-hidden shrink-0 bg-[color:var(--green-line)]/40">
-    
-          <img
-            src={entry.photo}
-            alt={entry.animalName}
-            className="w-full h-full object-cover"
-          />
-       
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-start justify-between gap-2">
-          <p className="font-display text-base text-ink truncate text-[1.5rem]">
-            {entry.animalName}
-          </p>
+      {photo ? (
+        <img
+          src={photo}
+          alt={entry.animalName}
+          className="absolute inset-0 w-full h-full rounded-2xl object-cover"
+        />
+      ) : (
+        <div className="absolute inset-0 rounded-2xl bg-[var(--green-line)]" />
+      )}
+
+      <div
+        className="absolute inset-x-0 bottom-0 px-3.5 pt-8 pb-3.5"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(14,26,16,0.92) 15%, rgba(14,26,16,0.45) 60%, transparent 100%)",
+        }}
+      >
+        <div className="flex items-end justify-between gap-2">
+          <div className="min-w-0">
+            <p className="font-display text-base text-white leading-tight truncate">
+              {entry.animalName}
+            </p>
+            <p className="text-[11px] text-white/70 truncate">
+              {formatDate(entry.createdAt, language, t)}
+            </p>
+          </div>
+          <span className="shrink-0 w-8 h-8 rounded-full bg-white/90 text-[var(--green-deep)] flex items-center justify-center group-hover:scale-105 transition-transform">
+            <IconFlip className="w-3.5 h-3.5" />
+          </span>
         </div>
-        <p className="text-xs text-ink-soft">
-          {formatDate(entry.createdAt, language, t)}
-        </p>
-        {entry.type === "custom" && (
-          <span className="inline-block mt-1 text-[11px] px-2 py-0.5 rounded-full bg-[color:var(--ochre)]/15 text-[var(--ochre-deep)]">
-            {t("customResearch")}
-          </span>
-        )}
-        {entry.type === "featured" && (
-          <span className="inline-block mt-6 text-[11px] px-2 py-0.5 rounded-full bg-[color:var(--green-mid)]/12 text-[var(--green-deep)]">
-            {t("featuredAnimals")}
-          </span>
-        )}
-        {entry.notes && (
-          <p className="text-sm text-ink-soft mt-1.5 line-clamp-1">
-            &ldquo;{entry.notes}&rdquo;
-          </p>
-        )}
       </div>
-    </button>
+    </motion.button>
   );
 }

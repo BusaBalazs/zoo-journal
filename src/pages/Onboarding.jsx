@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { IconArrowLeft } from "../components/icons";
 import { icons, bg } from "../assets";
 import { useLanguage } from "../i18n/LanguageContext";
 
 //------------------------------------------------------------
-export default function Onboarding({ onBack, onSubmit }) {
+export default function Onboarding({ onSubmit }) {
   const [name, setName] = useState("");
   const { t } = useLanguage();
 
@@ -23,8 +22,6 @@ export default function Onboarding({ onBack, onSubmit }) {
         <img src={icons.diary} className="w-25 h-25  mx-auto" />
       </div>
       <div className="relative z-20 max-w-md mx-auto flex flex-col ">
-       
-
         <div className="flex-1 px-6 pt-8 pb-8 flex flex-col text-center">
           <h1 className="font-display text-3xl text-ink mb-2 leading-tight">
             {t("askName")}
@@ -49,11 +46,7 @@ export default function Onboarding({ onBack, onSubmit }) {
             </button>
           </form>
 
-          {/* <div className="absolute right-0 top-2 max-w-[168px] bg-[var(--paper)] rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm">
-            <p className="text-sm text-ink leading-snug">{t("nameHint")}</p>
-          </div> */}
         </div>
-
       </div>
         <img
           src={bg.giraffeBg}

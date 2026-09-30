@@ -7,8 +7,6 @@ import SuccessView from "../components/SuccessView";
 import {
   IconFork,
   IconPin,
-  IconBinoculars,
-  IconCamera,
   IconMap,
   IconArrowLeft,
   IconPaw
@@ -46,7 +44,6 @@ export default function AnimalDetail({
   const animalOptions = getAnimalObservationOptions(animal, language);
   const [stage, setStage] = useState("learn"); // learn -> observe -> photo -> success
   const [tab, setTab] = useState("info");
-  const [favorite, setFavorite] = useState(false);
   const [answer, setAnswer] = useState(null);
   const [savedPhoto, setSavedPhoto] = useState(null);
   const [notes, setNotes] = useState("");

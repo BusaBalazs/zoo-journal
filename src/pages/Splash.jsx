@@ -1,11 +1,11 @@
-import { IconBook, IconBpZoo } from "../components/icons";
+import { IconBpZoo } from "../components/icons";
 import { bg } from "../assets/index.js";
 
 import { useLanguage } from "../i18n/LanguageContext";
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
-export default function Splash({ onStart, onOpenJournal }) {
+export default function Splash({ onStart }) {
   const { language, languages, setLanguage, t } = useLanguage();
   return (
     <div className="min-h-screen max-w-md mx-auto relative flex flex-col text-white overflow-hidden">
