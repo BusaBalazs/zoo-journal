@@ -121,7 +121,7 @@ export default function App() {
     const existing = entries.find(
       (entry) => entry.type === "featured" && entry.animalId === animalId,
     );
-    navigate(existing ? `/entry/${existing.id}` : `/animal/${animalId}`);
+    navigate(existing ? `/journal` : `/animal/${animalId}`);
   }
 
   function renderShell(page, activeTab) {
@@ -142,19 +142,11 @@ export default function App() {
       />
       <Route
         path="/splash"
-        element={
-          <Splash
-            onStart={() => startOnboarding("location")}
-          />
-        }
+        element={<Splash onStart={() => startOnboarding("location")} />}
       />
       <Route
         path="/onboarding"
-        element={
-          <Onboarding
-            onSubmit={handleOnboardingSubmit}
-          />
-        }
+        element={<Onboarding onSubmit={handleOnboardingSubmit} />}
       />
       <Route
         path="/location"
@@ -174,7 +166,8 @@ export default function App() {
             active={active}
             entries={entries}
             onOpenAnimal={openAnimal}
-            onGoExplore={() => navigate("/research/custom")}
+            onGoExplore={() => navigate("/explore")}
+            onGoCustomResearch={() => navigate("/research/custom")}
             onGoJournal={() => navigate("/journal")}
             onOpenProfile={() => navigate("/more")}
             onRetryLocation={() => retryLocation("/home")}

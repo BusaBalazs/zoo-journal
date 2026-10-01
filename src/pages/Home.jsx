@@ -21,6 +21,7 @@ export default function Home({
   entries,
   onOpenAnimal,
   onGoExplore,
+  onGoCustomResearch,
   onGoJournal,
   onOpenProfile,
   onRetryLocation,
@@ -96,7 +97,7 @@ export default function Home({
         </div>
 
         <button
-          onClick={onGoExplore}
+          onClick={onGoCustomResearch}
           className="w-full bg-[color:var(--ochre)]/15 border border-[color:var(--ochre)]/25 rounded-2xl p-4 flex items-center gap-3 text-left hover:bg-[color:var(--ochre)]/15 transition-colors"
         >
           <span className="w-10 h-10 rounded-xl  text-[var(--ochre-deep)] flex items-center justify-center shrink-0">
