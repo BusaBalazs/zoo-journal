@@ -4,12 +4,10 @@ import { ANIMALS } from "../data/animals";
 import {
   IconChevronRight,
   IconClock,
-  IconSparkle,
-  IconUser,
-  IconPin,
   IconBpZoo,
 } from "../components/icons";
-import { ZOO, remainingLabel } from "../utils/session";
+import WaveDivider from "../components/WaveDivider";
+import { remainingLabel } from "../utils/session";
 import { useLanguage } from "../i18n/LanguageContext";
 
 //--------------------------------------------------------------------------
@@ -21,9 +19,7 @@ export default function Home({
   entries,
   onOpenAnimal,
   onGoExplore,
-  onGoCustomResearch,
   onGoJournal,
-  onOpenProfile,
   onRetryLocation,
 }) {
   const { language, t } = useLanguage();
@@ -43,25 +39,38 @@ export default function Home({
   //--------------------------------------------------------------------------
   return (
     <div
-      className="max-w-md pb-5 min-h-[calc(100vh-56px)]"
+      className="max-w-md min-h-[calc(100vh-56px)]"
       style={{
         background:
           "linear-gradient(to bottom, rgb(231, 238, 240) 40%, rgb(178, 197, 203) 100%)",
       }}
     >
-      <div className=" w-20 h-20 backdrop-blur-xs flex items-center justify-center mb-6">
-        <IconBpZoo />
-      </div>
-
-      <div>
-        <div className="mb-8 px-4">
+      <header className="relative px-4 pt-4 pb-10">
+        <div className="flex items-center justify-between gap-3 mb-4">
+          <div className="w-14 h-20 shrink-0">
+            <IconBpZoo className="w-full h-full" />
+          </div>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-[var(--green-mid)] bg-[color:var(--green-mid)]/10 border border-[color:var(--green-mid)]/25 rounded-full px-3 py-2">
+            <span className="font-semibold">{t("activeResearch")}</span>
+            <span aria-hidden className="text-ink-soft">·</span>
+            <span className="flex items-center gap-1 text-ink-soft">
+              <IconClock className="w-3.5 h-3.5 shrink-0" />
+              {remainingLabel(visit, language)}
+            </span>
+          </div>
+        </div>
+        <div>
           <h1 className="font-display text-4xl text-ink">
             {t("greeting", user.name)}
           </h1>
-          <p className="text-sm text-ink-soft mt-0.5">{t("ready")}</p>
+          <p className="text-sm text-ink-soft mt-0.5">{t("collect")}</p>
+          <p className=" font-semibold text-ink-soft mt-1">{t("ready")}</p>
         </div>
+        <WaveDivider color="var(--paper-light)" />
+      </header>
 
-        <div className="bg-[var(--paper-light)] p-4 mb-6">
+      <div>
+        <div className="bg-[var(--paper-light)] p-4">
           <div className="flex items-center justify-between mb-3">
             <h2 className="font-display text-lg text-ink">
               {t("featuredAnimals")}
@@ -75,7 +84,7 @@ export default function Home({
             </button>
           </div>
           <div className="grid grid-cols-2 gap-3 mb-4">
-            {ANIMALS.slice(0, 2).map((animal) => (
+            {ANIMALS.slice(0, 4).map((animal) => (
               <AnimalCard
                 key={animal.id}
                 animal={animal}
@@ -84,38 +93,6 @@ export default function Home({
                 photoSrc={animal.src}
               />
             ))}
-          </div>
-        </div>
-
-        <button
-          onClick={onGoCustomResearch}
-          className="w-full bg-[color:var(--ochre)]/15 border border-[color:var(--ochre)]/25 p-4 flex items-center gap-3 text-left hover:bg-[color:var(--ochre)]/15 transition-colors"
-        >
-          <span className="w-10 h-10 rounded-xl  text-[var(--ochre-deep)] flex items-center justify-center shrink-0">
-            <IconSparkle className="w-10 h-10" />
-          </span>
-          <span className="text-sm text-ink flex-1">
-            <span className="text-[1rem] font-semibold block">
-              {t("customResearch")}
-            </span>
-            {t("customResearchPrompt")}
-          </span>
-          <span className="rounded-full p-3 bg-[color:var(--paper)]/90  flex items-center justify-center shrink-0">
-            <IconChevronRight className="w-5 h-5 text-[var(--ink)] shrink-0" />
-          </span>
-        </button>
-
-        <div className="bg-[var(--paper-light)] border border-[var(--rule)] px-4 py-6 mt-6 shadow-sm">
-          <div className="flex items-center gap-2 mb-4">
-            <IconPin className="w-10 h-10 text-[var(--green-mid)]" />
-            <p className="font-bold text-ink">{ZOO.name}</p>
-            <span className="ml-auto text-[11px] px-2 py-2 rounded-full bg-[color:var(--green-mid)] text-white font-semibold text-center">
-              {t("activeResearch")}
-            </span>
-          </div>
-          <div className="flex items-center justify-end gap-2 text-sm text-ink-soft">
-            {remainingLabel(visit, language)}
-            <IconClock className="w-6 h-6" />
           </div>
         </div>
       </div>

@@ -345,13 +345,14 @@ export function IconBinoculars({ className = "w-5 h-5" }) {
   );
 }
 
-export function IconBpZoo() {
+export function IconBpZoo({ className = "" }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="129.406"
       height="195"
       viewBox="0 0 129.406 195"
+      className={className}
     >
       <g transform="translate(733 55)">
         <path

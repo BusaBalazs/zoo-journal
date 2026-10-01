@@ -167,9 +167,7 @@ export default function App() {
             entries={entries}
             onOpenAnimal={openAnimal}
             onGoExplore={() => navigate("/explore")}
-            onGoCustomResearch={() => navigate("/research/custom")}
             onGoJournal={() => navigate("/journal")}
-            onOpenProfile={() => navigate("/more")}
             onRetryLocation={() => retryLocation("/home")}
           />,
           "home",
