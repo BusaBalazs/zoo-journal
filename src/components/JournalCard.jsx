@@ -52,18 +52,15 @@ export default function JournalCard({ entry, onClick, isActive = false }) {
       )}
 
       <div
-        className="absolute inset-x-0 bottom-0 px-3.5 pt-8 pb-3.5"
-        style={{
-          background:
-            "linear-gradient(to top, rgba(14,26,16,0.92) 15%, rgba(14,26,16,0.45) 60%, transparent 100%)",
-        }}
+        className="absolute inset-x-0 bottom-0 px-3.5 pt-4 pb-3.5 bg-[var(--paper-light)]/95  rounded-t-2xl"
+        
       >
         <div className="flex items-end justify-between gap-2">
           <div className="min-w-0">
-            <p className="font-display text-base text-white leading-tight truncate">
+            <p className="font-display text-base text-ink leading-tight truncate">
               {entry.animalName}
             </p>
-            <p className="text-[11px] text-white/70 truncate">
+            <p className="text-[11px] text-ink-soft truncate">
               {formatDate(entry.createdAt, language, t)}
             </p>
           </div>

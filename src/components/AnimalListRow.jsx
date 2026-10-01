@@ -14,14 +14,14 @@ export default function AnimalListRow({ animal, observed, onClick, photoSrc }) {
   return (
     <button
       onClick={onClick}
-      className="w-full text-left bg-[var(--paper-raised)] rounded-2xl overflow-hidden shadow-sm border border-[var(--rule)] hover:shadow-md transition-shadow"
+      className="relative w-full text-left bg-[var(--paper-raised)] rounded-2xl overflow-hidden shadow-sm border border-[var(--rule)] hover:shadow-md transition-shadow"
     >
-      <div className="h-45 bg-[color:var(--green-line)]/40">
+      <div className="h-55 bg-[color:var(--green-line)]/40">
         {photo ? (
           <img src={photo} alt="" className="w-full h-full object-cover" />
         ) : null}
       </div>
-      <div className="p-4 flex items-center gap-3">
+      <div className="absolute bottom-0 px-3 py-3 flex items-center gap-2 bg-[var(--paper-light)]/95  rounded-t-2xl w-full">
         <div className="flex-1 min-w-0">
           <p className="font-bold text-lg text-ink truncate leading-tight">
             {animalName}

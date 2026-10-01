@@ -97,8 +97,8 @@ export default function Explore({
         onClick={onCustomResearch}
         className="w-full bg-[color:var(--ochre)]/10 border border-[color:var(--ochre)]/25 rounded-2xl p-4 flex items-center gap-3 text-left hover:bg-[color:var(--ochre)]/15 transition-colors"
       >
-        <span className="w-10 h-10 rounded-xl bg-[color:var(--ochre)]/20 text-[var(--ochre-deep)] flex items-center justify-center shrink-0">
-          <IconSparkle className="w-5 h-5" />
+        <span className="w-10 h-10 rounded-xl text-[var(--ochre-deep)] flex items-center justify-center shrink-0">
+          <IconSparkle className="w-10 h-10" />
         </span>
         <span className="text-sm text-ink flex-1">
           <span className="font-semibold block">{t("customResearch")}</span>
