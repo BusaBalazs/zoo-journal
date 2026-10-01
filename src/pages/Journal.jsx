@@ -45,16 +45,15 @@ export default function Journal({
             <div className="w-22 h-22 flex items-center bg-[var(--paper)]  mb-4 rounded-full shadow-lg overflow-hidden">
               <img src={icons.diary} className="w-15 h-15 mx-auto" />
             </div>
-            
           </div>
-           <svg
-                className="w-full h-10 block text-[var(--paper-raised)] -mt-8"
-                viewBox="0 0 1440 120"
-                fill="currentColor"
-                preserveAspectRatio="none"
-              >
-                <path d="M0,32L60,42.7C120,53,240,75,360,80C480,85,600,75,720,58.7C840,43,960,21,1080,16C1200,11,1320,21,1380,26.7L1440,32L1440,120L0,120Z"></path>
-              </svg>
+          <svg
+            className="w-full h-10 block text-[var(--paper-raised)] -mt-8"
+            viewBox="0 0 1440 120"
+            fill="currentColor"
+            preserveAspectRatio="none"
+          >
+            <path d="M0,32L60,42.7C120,53,240,75,360,80C480,85,600,75,720,58.7C840,43,960,21,1080,16C1200,11,1320,21,1380,26.7L1440,32L1440,120L0,120Z"></path>
+          </svg>
 
           <div className="relative z-30 px-4 pb-5">
             {!active && (
