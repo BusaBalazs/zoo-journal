@@ -307,7 +307,7 @@ export default function EntryDetail({
             }}
             className="absolute inset-0 overflow-hidden rounded-[1.25rem] bg-[var(--paper-raised)] flex flex-col"
           >
-            <div className="relative shrink-0 bg-[var(--green-deep)] px-6 pt-7 pb-6 overflow-hidden">
+            <div className="relative shrink-0 bg-[var(--green-deep)] px-6 pt-7 pb-8 overflow-hidden">
               <button
                 type="button"
                 ref={backCloseRef}
@@ -354,8 +354,8 @@ export default function EntryDetail({
               )}
 
               {entry.type === "custom" && entry.diet && (
-                <p className="text-sm mb-4">
-                  <span className="text-ink-soft">{t("diet")} </span>
+                <p className="text-sm mb-4 bg-[var(--paper)] p-4 rounded-2xl">
+                  <span className="text-ink-soft flex">{t("diet")}</span><br/>
                   <span className="font-medium text-ink">{entry.diet}</span>
                 </p>
               )}

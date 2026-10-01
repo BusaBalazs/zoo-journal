@@ -42,7 +42,7 @@ export default function Journal({
                   : `${entries.length} ${t("observedAnimals")}.`}
               </p>
             </div>
-            <div className="w-22 h-22 flex items-center bg-[var(--paper)]  mb-4 rounded-full shadow-lg overflow-hidden">
+            <div className="w-22 h-22 flex items-center mb-4 overflow-hidden">
               <img src={icons.diary} className="w-15 h-15 mx-auto" />
             </div>
           </div>
@@ -67,7 +67,7 @@ export default function Journal({
             )}
 
             {sorted.length === 0 ? (
-              <div className=" bg-[color:var(--paper-raised)]/80 backdrop-blur-sm text-center py-16 px-6 rounded-2xl border border-dashed border-[var(--rule)] ">
+              <div className=" bg-[color:var(--paper)]/80 backdrop-blur-sm text-center py-16 px-6 rounded-2xl border border-white ">
                 <div className="w-12 h-12 rounded-2xl bg-[color:var(--green-mid)]/12 text-[var(--green-deep)] flex items-center justify-center mx-auto mb-4">
                   <IconBook className="w-5 h-5" />
                 </div>
