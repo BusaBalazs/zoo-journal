@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { IconMoon, IconWalk, IconFork, IconEye, IconPlay, IconEyeOff, IconCheck } from './icons'
+import { IconMoon, IconWalk, IconFork, IconEye, IconPlay, IconEyeOff, IconCheck, IconDrink, IconSwim, IconPreen } from './icons'
 
 const OPTION_ICON = {
   resting: IconMoon,
@@ -7,6 +7,9 @@ const OPTION_ICON = {
   eating: IconFork,
   watching: IconEye,
   playing: IconPlay,
+  drinking: IconDrink,
+  swimming: IconSwim,
+  preening: IconPreen,
   'not-visible': IconEyeOff,
 }
 

@@ -157,7 +157,7 @@ export default function AnimalDetail({
                 {tab === "info" && (
                   <>
                     <p className="text-ink leading-relaxed mb-5">
-                      {getAnimalText(animal, "intro", language)}
+                      {/* {getAnimalText(animal, "intro", language)} */}
                     </p>
                     <div className="grid grid-cols-1 gap-2.5 mb-6">
                       <InfoCard

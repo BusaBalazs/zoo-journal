@@ -355,7 +355,8 @@ export default function EntryDetail({
 
               {entry.type === "custom" && entry.diet && (
                 <p className="text-sm mb-4 bg-[var(--paper)] p-4 rounded-2xl">
-                  <span className="text-ink-soft flex">{t("diet")}</span><br/>
+                  <span className="text-ink-soft flex">{t("diet")}</span>
+                  <br />
                   <span className="font-medium text-ink">{entry.diet}</span>
                 </p>
               )}
@@ -443,7 +444,7 @@ export default function EntryDetail({
               )}
             </div>
 
-            <div className="shrink-0 px-6 pb-6 pt-2">
+            <div className="shrink-0 px-6 pb-2 pt-2">
               <button
                 type="button"
                 onClick={() => handleFlip(false)}

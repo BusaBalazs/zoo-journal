@@ -19,7 +19,7 @@ const translations = {
     remaining: (value) => `${value} van hátra`,
     greeting: (name) => `Szia, ${name}!`,
     collect:
-      "Fedezd fel az állatkert lakóit, és gyűjtsd össze őket a kutatási naplódba.",
+      "Fedezd fel az állatkert lakóit, és gyűjts, minél több kártyát a kutatási naplódba.",
     ready: "Indulj el a kutatásra!",
     observedAnimals: "megfigyelt állat",
     featuredAnimals: "Kiemelt állatok",
@@ -58,7 +58,7 @@ const translations = {
     discover: "Fedezd fel.",
     observe: "Figyeld meg.",
     record: "Jegyezd le.",
-    splashBody: "Készítsd el a saját kutatónaplódat!",
+    splashBody: "Gyűjts minél több állatos kártyát a saját kutatónaplódba!",
     startResearch: "Kezdd a kutatást",
     myJournal: "Az én naplóm",
     askName: "Hogy szólíthatunk?",
@@ -152,7 +152,8 @@ const translations = {
     activeResearch: "Research active",
     remaining: (value) => `${value} remaining`,
     greeting: (name) => `Hi, ${name}!`,
-    collect: "Discover the zoo animals and collect them in your research log.",
+    collect:
+      "Discover the zoo animals and collect as many cards as possible for your research journal.",
     ready: "Begin your research!",
     observedAnimals: "animals observed",
     featuredAnimals: "Featured animals",
@@ -190,7 +191,8 @@ const translations = {
     discover: "Discover.",
     observe: "Observe.",
     record: "Record.",
-    splashBody: "Create your own research journal!",
+    splashBody:
+      "Collect as many animal cards as possible for your own research journal!",
     startResearch: "Start researching",
     myJournal: "My journal",
     askName: "What should we call you?",
@@ -285,7 +287,8 @@ const translations = {
     activeResearch: "Forschung aktiv",
     remaining: (value) => `${value} verbleiben`,
     greeting: (name) => `Hallo, ${name}!`,
-    collect: "Entdecke die Zootiere und sammle sie in deinem Forschungsbuch.",
+    collect:
+      "Entdecke die Zoobewohner und sammle so viele Karten wie möglich für dein Forschungstagebuch.",
     ready: "Starte die Forschung!",
     observedAnimals: "beobachtete Tiere",
     featuredAnimals: "Besondere Tiere",
@@ -324,7 +327,8 @@ const translations = {
     discover: "Entdecke.",
     observe: "Beobachte.",
     record: "Notiere.",
-    splashBody: "Erstelle dein eigenes Forschungstagebuch!",
+    splashBody:
+      "Sammle so viele Tierkarten wie möglich für dein eigenes Forschungstagebuch!",
     startResearch: "Forschung starten",
     myJournal: "Mein Tagebuch",
     askName: "Wie dürfen wir dich nennen?",

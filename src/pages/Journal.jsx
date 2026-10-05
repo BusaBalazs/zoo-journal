@@ -26,26 +26,28 @@ export default function Journal({
   return (
     <LayoutGroup id="journal-entry-cards">
       <img
-        src={bg.giraffeBgS}
-        className="w-full  absolute fixed bottom-0 pointer-events-none select-none left-0"
+        src={bg.noAnimalsBg}
+        className="w-full  absolute fixed bottom-8 pointer-events-none select-none left-0"
       />
+
       <section className="min-h-[calc(100vh-56px)] bg-[var(--paper-raised)]">
         <div className="max-w-md mx-auto  ">
-          <div className="bg-white p-4 pb-6  flex items-center justify-between w-full">
+          <div className="bg-[var(--green-deep)] p-4 pb-6 flex items-center justify-between w-full overflow-hidden">
             <div>
-              <h1 className="font-display text-2xl text-ink mt-2 mb-1 text-left">
+              <h1 className="font-display text-2xl text-white mt-2 mb-1 text-left">
                 {t("journalTitle")}
               </h1>
-              <p className="text-ink text-sm text-left">
+              <p className="text-white/85 text-sm text-left">
                 {entries.length === 0
                   ? t("emptyJournal")
                   : `${entries.length} ${t("observedAnimals")}.`}
               </p>
             </div>
             <div className="w-22 h-22 flex items-center mb-4 overflow-hidden">
-              <img src={icons.diary} className="w-15 h-15 mx-auto" />
+              <img src={icons.diary} className="w-full aspect-square mx-auto" />
             </div>
           </div>
+
           <svg
             className="w-full h-10 block text-[var(--paper-raised)] -mt-8"
             viewBox="0 0 1440 120"

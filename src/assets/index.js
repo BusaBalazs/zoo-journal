@@ -22,12 +22,14 @@ import giraffe from "./giraffe-bg.png";
 import giraffeS from "./giraffe_siluet-bg.png";
 import lion from "./landing-lion.webp";
 import trees from "./location-bg.png";
+import noAnimals from "./bg_no_animal.webp";
 
 export const bg = {
   giraffeBg: giraffe,
   giraffeBgS: giraffeS,
   lionBg: lion,
   treesBg: trees,
+  noAnimalsBg: noAnimals,
 };
 
 //-----------------------------------------------------------
@@ -35,9 +37,11 @@ export const bg = {
 import lionCard from "./animals/lion_card_bg.webp";
 import elephantCard from "./animals/elefant_card_bg.webp";
 import penguinCard from "./animals/penguin_card_bg.webp";
+import giraffeCard from "./animals/giraffe_card_bg.webp";
 
 export const animalCards = {
   lionCard: lionCard,
   elephantCard: elephantCard,
   penguinCard: penguinCard,
+  giraffeCard: giraffeCard,
 };

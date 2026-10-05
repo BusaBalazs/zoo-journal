@@ -49,6 +49,49 @@ export function IconPaw({ className = "w-5 h-5" }) {
   );
 }
 
+export function IconSwim({ className = "w-5 h-5" }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} {...base}>
+      {/* Két szimmetrikus hullámvonal az alján */}
+      <path d="M2 17C3.8 17 4.7 18 6.5 18C8.3 18 9.2 17 11 17C12.8 17 13.7 18 15.5 18C17.3 18 18.2 17 20 17C21.1 17 21.8 17.4 22.5 18L21.5 20C20.8 19.6 20.3 19.5 19.5 19.5C17.7 19.5 16.8 20.5 15 20.5C13.2 20.5 12.3 19.5 10.5 19.5C8.7 19.5 7.8 20.5 6 20.5C4.2 20.5 3.3 19.5 1.5 19.5C0.7 19.5 0.2 19.6 -0.5 20L-1.5 18C-0.8 17.4 -0.1 17 1 17H2Z" />
+      {/* Vízből kiemelkedő kacsa/madár teste */}
+      <path d="M6 15C6 11.5 8.5 9 12 9C13.2 9 14.3 9.3 15.2 9.9C16.2 8.7 17.8 8 19.5 8C20.9 8 22.1 8.5 23 9.3C22 10.8 21.8 12.8 22.8 14.5C21.8 15.5 20.2 16 18.5 16C15.5 16 13.2 14.8 11.5 15H6Z" />
+      {/* Fej (organikus gömb) */}
+      <circle cx="8" cy="8" r="3.5" />
+      {/* Csőr */}
+      <path d="M4.5 8C3 8 2 7.2 2 6.5C3 6 4.5 6.5 5 7L4.5 8Z" />
+    </svg>
+  );
+}
+
+export function IconPreen({ className = "w-5 h-5" }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} {...base}>
+      {/* Madár teste (lehajló fejjel a tollak felé) */}
+      <path d="M8 20C4.1 20 2 17 2 13.5C2 10 4.5 7.5 8 7.5C10 7.5 11.8 8.3 13 9.6C13.5 7.5 15.2 6 17.5 6C20 6 22 8 22 10.5C22 14 18 20 8 20Z" />
+      {/* Hátrafelé hajló szárny/toll részlet */}
+      <path d="M11 13C12.5 11.5 15 11 17 12C18.5 12.8 19 14.5 18 16C16.5 18.2 13.5 18.5 11 17.5V13Z" />
+      {/* Csőr, ahogy épp igazgatja a tollat */}
+      <path d="M15 11.5L12.5 13.5C12 12.5 12.5 11.5 13.5 11L15 11.5Z" />
+      {/* Puha díszítő/lehulló tollikonszerű elem */}
+      <ellipse cx="6" cy="5" rx="1.5" ry="2.8" transform="rotate(-30 6 5)" />
+    </svg>
+  );
+}
+
+export function IconDrink({ className = "w-5 h-5" }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} {...base}>
+      {/* Tál teste (széles, lekerekített forma) */}
+      <path d="M3 13C3 17.4183 7.02944 21 12 21C16.9706 21 21 17.4183 21 13H3Z" />
+      {/* Vízfelszín / tál pereme */}
+      <ellipse cx="12" cy="13" rx="9" ry="2.5" />
+      {/* Vízcsepp felette (puha, lekerekített vízcsepp forma) */}
+      <path d="M12 3C12 3 8.5 7.2 8.5 9.5C8.5 11.433 10.067 13 12 13C13.933 13 15.5 11.433 15.5 9.5C15.5 7.2 12 3 12 3Z" />
+    </svg>
+  );
+}
+
 export function IconCamera({ className = "w-5 h-5" }) {
   return (
     <svg viewBox="0 0 24 24" className={className} {...base}>
