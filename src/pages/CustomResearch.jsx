@@ -40,25 +40,39 @@ function ChoiceList({
   language,
   OptionIcon,
   getOptionIcon,
+  multiple = false,
 }) {
   return (
     <div className="space-y-2.5">
       {options.map((opt) => {
         const CurrentOptionIcon = getOptionIcon?.(opt) || OptionIcon;
+        const selected = multiple ? value.includes(opt.id) : value === opt.id;
         return (
           <button
             key={opt.id}
             type="button"
-            onClick={() => onChange(opt.id)}
+            onClick={() => {
+              if (!multiple) {
+                onChange(opt.id);
+                return;
+              }
+
+              onChange(
+                selected
+                  ? value.filter((id) => id !== opt.id)
+                  : [...value, opt.id],
+              );
+            }}
+            aria-pressed={selected}
             className={`w-full flex items-center gap-3 pl-3 pr-4 py-3 rounded-2xl border text-left transition-colors shadow-sm ${
-              value === opt.id
+              selected
                 ? "bg-[color:var(--green-mid)]/10 border-[var(--green-mid)]"
                 : "bg-[var(--paper)] border-[var(--rule)] hover:border-[var(--green-mid)]"
             }`}
           >
             <span
               className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
-                value === opt.id
+                selected
                   ? "bg-[var(--green-mid)] text-white"
                   : "bg-[var(--paper)] text-[var(--green-mid)]"
               }`}
@@ -67,12 +81,12 @@ function ChoiceList({
             </span>
             <span
               className={`flex-1 font-medium ${
-                value === opt.id ? "text-[var(--green-deep)]" : "text-ink"
+                selected ? "text-[var(--green-deep)]" : "text-ink"
               }`}
             >
               {getOptionLabel(opt, language)}
             </span>
-            {value === opt.id && (
+            {selected && (
               <span className="w-6 h-6 rounded-full bg-[var(--green-mid)] text-white flex items-center justify-center shrink-0">
                 <IconCheck className="w-3.5 h-3.5" />
               </span>
@@ -97,7 +111,7 @@ export default function CustomResearch({
   //----------------------------------------------------------------------
   const [name, setName] = useState("");
   const [type, setType] = useState(null);
-  const [diet, setDiet] = useState(null);
+  const [diet, setDiet] = useState([]);
   const [observed, setObserved] = useState(null);
   const [notes, setNotes] = useState("");
   const [photo, setPhoto] = useState(null);
@@ -131,7 +145,7 @@ export default function CustomResearch({
 
   //----------------------------------------------------------------------
   const canSave = name.trim().length > 0;
-  const selectedValues = [name, type, diet, observed];
+  const selectedValues = [name, type, diet.length > 0, observed];
   const canContinue = step === 0 ? canSave : step === 4 || !!selectedValues[step];
   const stepTitles = [
     t("animalName"),
@@ -170,10 +184,9 @@ export default function CustomResearch({
         ANIMAL_TYPES.find((option) => option.id === type),
         language,
       ),
-      diet: getOptionLabel(
-        DIET_OPTIONS.find((option) => option.id === diet),
-        language,
-      ),
+      diet: DIET_OPTIONS.filter((option) => diet.includes(option.id))
+        .map((option) => getOptionLabel(option, language))
+        .join(", "),
       observation: getOptionLabel(
         OBSERVED_OPTIONS.find((option) => option.id === observed),
         language,
@@ -248,6 +261,7 @@ export default function CustomResearch({
               onChange={setDiet}
               language={language}
               OptionIcon={IconLeaf}
+              multiple
             />
           )}
 

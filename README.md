@@ -24,15 +24,18 @@ No `npm run build` is needed or expected for this stage.
 1. **Splash** — simulates arriving via the entrance QR code (full-bleed photo,
    "Kezdd a kutatást" / "Az én naplóm").
 2. **Name** — asked once, right after the simulated QR scan.
-3. **Location check** — runs immediately after the name is entered, using the
-   real browser Geolocation API and a real Haversine-distance check against
-   Budapest Zoo's actual coordinates (Állatkerti krt. 6-12, ~700 m radius).
+3. **Location check** — currently bypassed in the prototype: continuing from
+   the location screen unlocks the full app without requesting browser
+   coordinates or checking the user's distance from the zoo. The
+   Haversine-distance helper for Budapest Zoo's actual coordinates
+   (Állatkerti krt. 6-12, ~700 m radius) remains in the codebase for restoring
+   strict location validation later.
    - **Match** → a short celebratory screen, then the full app unlocks for a
      5-hour visit session (featured animals, custom research, everything).
-   - **No match / denied / unavailable** → the app goes straight into
-     **journal-only mode**: existing entries stay fully viewable and editable,
-     but no *new* research entry (featured or custom) can be started until the
-     location check succeeds.
+   - When strict location validation is restored, **no match / denied /
+     unavailable** should send the app into **journal-only mode**: existing
+     entries stay fully viewable and editable, but no *new* research entry
+     (featured or custom) can be started until the location check succeeds.
 4. Returning to the app later (or from Home/Explore/Journal/Egyebek) always
    offers a **"Helyzet újraellenőrzése"** action to re-run the check and
    regain full access — the same 5-hour-session model as before, just

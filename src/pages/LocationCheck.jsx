@@ -4,7 +4,7 @@ import {
   IconShield,
   IconBook,
 } from "../components/icons";
-import { ZOO, isWithinZoo } from "../utils/session";
+import { ZOO } from "../utils/session";
 import { useLanguage } from "../i18n/LanguageContext";
 import { icons, bg } from "../assets";
 
@@ -24,28 +24,8 @@ export default function LocationCheck({ onMatched, onOpenJournal }) {
   const { t } = useLanguage();
 
   //-----------------------------------------------------------------------
-  function evaluate(lat, lng) {
-    if (isWithinZoo(lat, lng)) {
-      setStep(STEPS.matched);
-    } else {
-      setStep(STEPS.unmatched);
-    }
-  }
-
-  //-----------------------------------------------------------------------
   function handleCheck() {
-    setStep(STEPS.checking);
-
-    if (!("geolocation" in navigator)) {
-      setStep(STEPS.unavailable);
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (pos) => evaluate(pos.coords.latitude, pos.coords.longitude),
-      () => setStep(STEPS.unavailable),
-      { timeout: 6000 },
-    );
+    setStep(STEPS.matched);
   }
 
   //-----------------------------------------------------------------------
