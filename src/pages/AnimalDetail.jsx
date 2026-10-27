@@ -9,7 +9,7 @@ import {
   IconPin,
   IconMap,
   IconArrowLeft,
-  IconPaw
+  IconPaw,
 } from "../components/icons";
 import {
   getAnimalName,
@@ -24,7 +24,6 @@ import { animalCards, icons } from "../assets";
 
 const TABS = [
   { id: "info", label: "infoTab" },
-  { id: "observation", label: "observationTab" },
   { id: "fact", label: "factTab" },
 ];
 
@@ -61,14 +60,6 @@ export default function AnimalDetail({
   }
 
   //------------------------------------------------------------------------
-  function handleTabClick(id) {
-    if (id === "observation") {
-      beginObservation();
-      return;
-    }
-    setTab(id);
-  }
-
   //------------------------------------------------------------------------
   function handleSave() {
     const entry = {
@@ -142,7 +133,7 @@ export default function AnimalDetail({
                   {TABS.map((tabItem) => (
                     <button
                       key={tabItem.id}
-                      onClick={() => handleTabClick(tabItem.id)}
+                      onClick={() => setTab(tabItem.id)}
                       className={`flex-1 text-sm py-2 rounded-full font-medium transition-colors ${
                         tab === tabItem.id
                           ? "bg-[var(--green-deep)] text-white"
@@ -156,9 +147,6 @@ export default function AnimalDetail({
 
                 {tab === "info" && (
                   <>
-                    <p className="text-ink leading-relaxed mb-5">
-                      {/* {getAnimalText(animal, "intro", language)} */}
-                    </p>
                     <div className="grid grid-cols-1 gap-2.5 mb-6">
                       <InfoCard
                         icon={<IconPin className="w-8 h-8" />}
@@ -230,18 +218,16 @@ export default function AnimalDetail({
             <h1 className="font-display text-2xl text-ink mb-1.5 text-center">
               {getAnimalText(animal, "observationQuestion", language)}
             </h1>
-            <p className="text-ink-soft mb-6 text-center">{t("observationPrompt")}</p>
+            <p className="text-ink-soft mb-6 text-center">
+              {t("observationPrompt")}
+            </p>
 
-            <ObservationQuestion options={animalOptions} onAnswer={setAnswer} />
-
-            <button
-              onClick={() => setStage("photo")}
-              disabled={!answer}
-              className="w-full mt-6 py-3.5 rounded-full bg-[var(--green-deep)] text-white font-semibold disabled:opacity-40 hover:bg-[color:var(--green-deep)]/90 transition-colors flex items-center justify-center gap-2"
-            >
-              {t("continue")}
-              <span aria-hidden>→</span>
-            </button>
+            <ObservationQuestion
+              options={animalOptions}
+              onAnswer={setAnswer}
+              onContinue={() => setStage("photo")}
+              continueLabel={t("continue")}
+            />
           </div>
         )}
 

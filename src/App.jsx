@@ -162,7 +162,6 @@ export default function App() {
         element={renderShell(
           <Home
             user={user}
-            visit={visit}
             active={active}
             entries={entries}
             onOpenAnimal={openAnimal}

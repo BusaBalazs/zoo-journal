@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { remainingLabel } from "../utils/session";
-import { ZOO } from "../utils/session";
+import { remainingLabel, ZOO } from "../utils/session";
 import { useLanguage } from "../i18n/LanguageContext";
 import { bg } from "../assets";
 import { IconCheck, IconEdit } from "../components/icons";
@@ -40,7 +39,7 @@ export default function More({
       className=" bg-[var(--paper-raised)] min-h-[calc(100vh-56px)]"
       style={{
         background:
-          "linear-gradient(to bottom, rgb(51, 88, 71) 40%, rgb(102, 131, 117) 75%",
+          "linear-gradient(to bottom, var(--bg-800) 40%, rgb(102, 131, 117) 75%",
       }}
     >
       <div className="max-w-md mx-auto px-4 py-5 relative z-20">

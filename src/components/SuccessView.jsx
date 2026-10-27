@@ -1,10 +1,8 @@
 import { useEffect, useRef } from "react";
 import { IconCheck } from "./icons";
-import { bg } from "../assets";
+import { animalCards, bg } from "../assets";
+import { getAnimalById } from "../data/animals";
 import { useLanguage } from "../i18n/LanguageContext";
-//----------------------------------------------------------------
-const PHOTO = { lion: "/images/landing-lion.jpg" };
-
 //----------------------------------------------------------------
 const CONFETTI = [
   { top: "4%", left: "18%", color: "var(--ochre)", size: 8 },
@@ -68,7 +66,9 @@ export default function SuccessView({
     };
   }, []);
 
-  const stockPhoto = entry.type === "featured" ? PHOTO[entry.animalId] : null;
+  const animal =
+    entry.type === "featured" ? getAnimalById(entry.animalId) : null;
+  const stockPhoto = animal ? animalCards[animal.src] : null;
   const thumb = entry.photo || stockPhoto;
   const locale = { hu: "hu-HU", en: "en-US", de: "de-DE" }[language];
   const time = new Date(entry.createdAt).toLocaleTimeString(locale, {

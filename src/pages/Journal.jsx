@@ -32,7 +32,7 @@ export default function Journal({
 
       <section className="min-h-[calc(100vh-56px)] bg-[var(--paper-raised)]">
         <div className="max-w-md mx-auto  ">
-          <div className="bg-[var(--green-deep)] p-4 pb-6 flex items-center justify-between w-full overflow-hidden">
+          <div className="bg-[var(--bg-800)] p-4 pb-6 flex items-center justify-between w-full overflow-hidden">
             <div>
               <h1 className="font-display text-2xl text-white mt-2 mb-1 text-left">
                 {t("journalTitle")}

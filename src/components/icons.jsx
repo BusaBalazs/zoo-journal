@@ -19,15 +19,6 @@ export function IconHome({ className = "w-5 h-5" }) {
   );
 }
 
-export function IconCompass({ className = "w-5 h-5" }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} {...base}>
-      <circle cx="12" cy="12" r="8.2" />
-      <path d="M14.6 9.4 13 13l-3.6 1.6L11 11l3.6-1.6Z" />
-    </svg>
-  );
-}
-
 export function IconBook({ className = "w-5 h-5" }) {
   return (
     <svg viewBox="0 0 24 24" className={className} {...base}>
@@ -101,15 +92,6 @@ export function IconCamera({ className = "w-5 h-5" }) {
   );
 }
 
-export function IconExpand({ className = "w-5 h-5" }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} {...base}>
-      <path d="M8 4H4v4M16 4h4v4M20 16v4h-4M4 16v4h4" />
-      <path d="M4 4l6 6M20 4l-6 6M20 20l-6-6M4 20l6-6" />
-    </svg>
-  );
-}
-
 export function IconLeaf({ className = "w-5 h-5" }) {
   return (
     <svg viewBox="0 0 24 24" className={className} {...base}>
@@ -157,17 +139,6 @@ export function IconChevronRight({ className = "w-5 h-5" }) {
   return (
     <svg viewBox="0 0 24 24" className={className} {...base}>
       <path d="M9.5 5 16.5 12l-7 7" />
-    </svg>
-  );
-}
-
-export function IconQr({ className = "w-5 h-5" }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} {...base}>
-      <rect x="4" y="4" width="6" height="6" rx="1" />
-      <rect x="14" y="4" width="6" height="6" rx="1" />
-      <rect x="4" y="14" width="6" height="6" rx="1" />
-      <path d="M15 15h2.2v2.2H15zM18.5 15h1.5M15 18.5h1.5M18.7 18.7h.8" />
     </svg>
   );
 }
@@ -259,19 +230,6 @@ export function IconSearch({ className = "w-5 h-5" }) {
   );
 }
 
-export function IconHeart({ className = "w-5 h-5", filled = false }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className={className}
-      {...base}
-      fill={filled ? "currentColor" : "none"}
-    >
-      <path d="M12 20s-7.4-4.5-9.7-9C.7 7.4 2.5 4 6 4c2 0 3.5 1.1 6 3.7C14.5 5.1 16 4 18 4c3.5 0 5.3 3.4 3.7 7-2.3 4.5-9.7 9-9.7 9Z" />
-    </svg>
-  );
-}
-
 export function IconQuestion({ className = "w-5 h-5" }) {
   return (
     <svg viewBox="0 0 24 24" className={className} {...base}>
@@ -294,15 +252,6 @@ export function IconBulb({ className = "w-5 h-5" }) {
     <svg viewBox="0 0 24 24" className={className} {...base}>
       <path d="M9 17.5h6M9.8 20h4.4" />
       <path d="M12 3.5a5.8 5.8 0 0 0-3.4 10.5c.6.5.9 1 .9 1.7h5a2 2 0 0 1 .9-1.7A5.8 5.8 0 0 0 12 3.5Z" />
-    </svg>
-  );
-}
-
-export function IconUser({ className = "w-5 h-5" }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} {...base}>
-      <circle cx="12" cy="8.2" r="3.4" />
-      <path d="M5 20c1-3.6 4-5.6 7-5.6s6 2 7 5.6" />
     </svg>
   );
 }
@@ -373,17 +322,6 @@ export function IconMap({ className = "w-8 h-8" }) {
         fill="currentColor"
       />
       <circle cx="21.5" cy="21" r="2.4" fill="white" />
-    </svg>
-  );
-}
-
-export function IconBinoculars({ className = "w-5 h-5" }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} {...base}>
-      <path d="M9.5 10.5 8 5h3l1 5.5M14.5 10.5 16 5h-3l-1 5.5" />
-      <circle cx="8" cy="15.5" r="3.2" />
-      <circle cx="16" cy="15.5" r="3.2" />
-      <path d="M11 15h2" />
     </svg>
   );
 }

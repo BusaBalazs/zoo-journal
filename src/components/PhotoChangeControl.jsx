@@ -2,9 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import Modal from "./Modal";
 import { IconCamera } from "./icons";
 import { useLanguage } from "../i18n/LanguageContext";
-
-const TARGET_W = 656;
-const TARGET_H = 861;
+import {
+  CROP_HEIGHT,
+  CROP_WIDTH,
+  clampCropPosition,
+  getCropFrameSize,
+  getCropImageScale,
+  getCropSourceRect,
+} from "../utils/photoCrop";
 
 //-----------------------------------------------------------------
 //-----------------------------------------------------------------
@@ -30,7 +35,7 @@ export default function PhotoChangeControl({
     if (!cropRef.current) return undefined;
     const resizeObserver = new ResizeObserver(() => {
       const width = cropRef.current?.clientWidth || 0;
-      setCropSize({ width, height: (width * TARGET_H) / TARGET_W });
+      setCropSize(getCropFrameSize(width));
     });
     resizeObserver.observe(cropRef.current);
     return () => resizeObserver.disconnect();
@@ -38,20 +43,7 @@ export default function PhotoChangeControl({
 
   //-----------------------------------------------------------------
   function clampPosition(nextPosition, nextZoom = zoom) {
-    if (!pendingImage || !cropSize.width) return nextPosition;
-    const scale =
-      Math.max(
-        cropSize.width / pendingImage.width,
-        cropSize.height / pendingImage.height,
-      ) * nextZoom;
-    const imageWidth = pendingImage.width * scale;
-    const imageHeight = pendingImage.height * scale;
-    const maxX = Math.max(0, (imageWidth - cropSize.width) / 2);
-    const maxY = Math.max(0, (imageHeight - cropSize.height) / 2);
-    return {
-      x: Math.min(maxX, Math.max(-maxX, nextPosition.x)),
-      y: Math.min(maxY, Math.max(-maxY, nextPosition.y)),
-    };
+    return clampCropPosition(nextPosition, pendingImage, cropSize, nextZoom);
   }
 
   //-----------------------------------------------------------------
@@ -124,31 +116,20 @@ export default function PhotoChangeControl({
     if (!pendingImage) return;
     const frameWidth = cropRef.current?.clientWidth || cropSize.width;
     if (!frameWidth) return;
-    const frameSize = {
-      width: frameWidth,
-      height: (frameWidth * TARGET_H) / TARGET_W,
-    };
-    const scale =
-      Math.max(
-        frameSize.width / pendingImage.width,
-        frameSize.height / pendingImage.height,
-      ) * zoom;
-    const imageWidth = pendingImage.width * scale;
-    const imageHeight = pendingImage.height * scale;
-    const left = (frameSize.width - imageWidth) / 2 + position.x;
-    const top = (frameSize.height - imageHeight) / 2 + position.y;
+    const frameSize = getCropFrameSize(frameWidth);
+    const source = getCropSourceRect(pendingImage, frameSize, position, zoom);
     const canvas = document.createElement("canvas");
-    canvas.width = TARGET_W;
-    canvas.height = TARGET_H;
+    canvas.width = CROP_WIDTH;
+    canvas.height = CROP_HEIGHT;
     const context = canvas.getContext("2d");
     const image = new Image();
     image.onload = () => {
       context.drawImage(
         image,
-        -left / scale,
-        -top / scale,
-        frameSize.width / scale,
-        frameSize.height / scale,
+        source.x,
+        source.y,
+        source.width,
+        source.height,
         0,
         0,
         canvas.width,
@@ -162,10 +143,7 @@ export default function PhotoChangeControl({
 
   const previewScale =
     pendingImage && cropSize.width
-      ? Math.max(
-          cropSize.width / pendingImage.width,
-          cropSize.height / pendingImage.height,
-        ) * zoom
+      ? getCropImageScale(pendingImage, cropSize, zoom)
       : 0;
 
   //-----------------------------------------------------------------

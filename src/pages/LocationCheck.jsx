@@ -1,9 +1,5 @@
 import { useState } from "react";
-import {
-  IconClock,
-  IconShield,
-  IconBook,
-} from "../components/icons";
+import { IconClock, IconShield, IconBook } from "../components/icons";
 import { ZOO } from "../utils/session";
 import { useLanguage } from "../i18n/LanguageContext";
 import { icons, bg } from "../assets";
@@ -29,21 +25,12 @@ export default function LocationCheck({ onMatched, onOpenJournal }) {
   }
 
   //-----------------------------------------------------------------------
-  // Dev-only shortcuts so the flow can be tested away from the zoo.
-  function simulate(matched) {
-    setStep(STEPS.checking);
-    setTimeout(() => setStep(matched ? STEPS.matched : STEPS.unmatched), 500);
-  }
-
-  //-----------------------------------------------------------------------
   return (
     <section className="min-h-screen bg-[var(--paper-raised)]">
       <div className="w-56 mx-auto bg-[var(--paper)]/45 px-6 pt-8 mb-4 rounded-b-full shadow-lg overflow-hidden">
         <img src={icons.map} className="w-25 h-25 mx-auto" />
       </div>
       <div className=" max-w-md mx-auto flex flex-col  relative overflow-hidden">
-       
-
         <div className="flex-1 px-6 pt-4 pb-8 flex flex-col items-center text-center relative">
           {(step === STEPS.idle || step === STEPS.checking) && (
             <>
@@ -72,24 +59,6 @@ export default function LocationCheck({ onMatched, onOpenJournal }) {
               >
                 {step === STEPS.checking ? t("checking") : t("checkLocation")}
               </button>
-
-              <div className="mt-8 text-xs text-ink-soft/70">
-                <p className="mb-1.5">{t("prototype")}</p>
-                <div className="flex items-center justify-center gap-3">
-                  <button
-                    onClick={() => simulate(true)}
-                    className="underline underline-offset-2 hover:text-ink-soft"
-                  >
-                    {t("simulateHere")}
-                  </button>
-                  <button
-                    onClick={() => simulate(false)}
-                    className="underline underline-offset-2 hover:text-ink-soft"
-                  >
-                    {t("simulateAway")}
-                  </button>
-                </div>
-              </div>
             </>
           )}
 

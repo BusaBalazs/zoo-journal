@@ -1,40 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import { IconCamera, IconX } from "./icons";
 import { useLanguage } from "../i18n/LanguageContext";
+import {
+  CROP_HEIGHT,
+  CROP_WIDTH,
+  clampCropPosition,
+  getCropFrameSize,
+  getCropImageScale,
+  getCropSourceRect,
+} from "../utils/photoCrop";
 
 //-------------------------------------------------------------
 //-------------------------------------------------------------
 export default function PhotoPicker({
   photo,
   onChange,
-  label = "Saját kutatási fotó",
+  label,
 }) {
   //-------------------------------------------------------------
-  const { language } = useLanguage();
-  const text =
-    language === "en"
-      ? {
-          uploaded: "Uploaded research photo",
-          remove: "Remove photo",
-          hint: "Take a photo of the animal if you like",
-          camera: "Take photo",
-          gallery: "Choose from gallery",
-        }
-      : language === "de"
-        ? {
-            uploaded: "Hochgeladenes Forschungsfoto",
-            remove: "Foto entfernen",
-            hint: "Fotografiere das Tier, wenn du möchtest",
-            camera: "Foto aufnehmen",
-            gallery: "Aus Galerie wählen",
-          }
-        : {
-            uploaded: "Feltöltött kutatási fotó",
-            remove: "Fotó eltávolítása",
-            hint: "Fotózd le az állatot, ha szeretnéd",
-            camera: "Fotó készítése",
-            gallery: "Galériából választok",
-          };
+  const { t } = useLanguage();
   //-------------------------------------------------------------
   const cameraRef = useRef(null);
   const galleryRef = useRef(null);
@@ -47,37 +31,11 @@ export default function PhotoPicker({
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   //-------------------------------------------------------------
-  const cropText =
-    language === "en"
-      ? {
-          title: "Choose the visible part",
-          hint: "Drag the image and use the slider to frame your photo",
-          zoom: "Zoom",
-          apply: "Use this photo",
-          cancel: "Cancel",
-        }
-      : language === "de"
-        ? {
-            title: "Sichtbaren Bereich wählen",
-            hint: "Verschiebe das Bild und nutze den Regler für den Ausschnitt",
-            zoom: "Zoom",
-            apply: "Dieses Foto verwenden",
-            cancel: "Abbrechen",
-          }
-        : {
-            title: "Válaszd ki a látható részt",
-            hint: "Mozgasd a képet, és a csúszkával állítsd be a kivágást",
-            zoom: "Nagyítás",
-            apply: "Fotó használata",
-            cancel: "Mégse",
-          };
-
-  //-------------------------------------------------------------
   useEffect(() => {
     if (!cropRef.current) return undefined;
     const resizeObserver = new ResizeObserver(() => {
       const width = cropRef.current?.clientWidth || 0;
-      setCropSize({ width, height: (width * 861) / 656 });
+      setCropSize(getCropFrameSize(width));
     });
     resizeObserver.observe(cropRef.current);
     return () => resizeObserver.disconnect();
@@ -85,20 +43,7 @@ export default function PhotoPicker({
 
   //-------------------------------------------------------------
   function clampPosition(nextPosition, nextZoom = zoom) {
-    if (!pendingImage || !cropSize.width) return nextPosition;
-    const scale =
-      Math.max(
-        cropSize.width / pendingImage.width,
-        cropSize.height / pendingImage.height,
-      ) * nextZoom;
-    const imageWidth = pendingImage.width * scale;
-    const imageHeight = pendingImage.height * scale;
-    const maxX = Math.max(0, (imageWidth - cropSize.width) / 2);
-    const maxY = Math.max(0, (imageHeight - cropSize.height) / 2);
-    return {
-      x: Math.min(maxX, Math.max(-maxX, nextPosition.x)),
-      y: Math.min(maxY, Math.max(-maxY, nextPosition.y)),
-    };
+    return clampCropPosition(nextPosition, pendingImage, cropSize, nextZoom);
   }
 
   //-------------------------------------------------------------
@@ -163,31 +108,20 @@ export default function PhotoPicker({
     if (!pendingImage) return;
     const frameWidth = cropRef.current?.clientWidth || cropSize.width;
     if (!frameWidth) return;
-    const frameSize = {
-      width: frameWidth,
-      height: (frameWidth * 861) / 656,
-    };
-    const scale =
-      Math.max(
-        frameSize.width / pendingImage.width,
-        frameSize.height / pendingImage.height,
-      ) * zoom;
-    const imageWidth = pendingImage.width * scale;
-    const imageHeight = pendingImage.height * scale;
-    const left = (frameSize.width - imageWidth) / 2 + position.x;
-    const top = (frameSize.height - imageHeight) / 2 + position.y;
+    const frameSize = getCropFrameSize(frameWidth);
+    const source = getCropSourceRect(pendingImage, frameSize, position, zoom);
     const canvas = document.createElement("canvas");
-    canvas.width = 656;
-    canvas.height = 861;
+    canvas.width = CROP_WIDTH;
+    canvas.height = CROP_HEIGHT;
     const context = canvas.getContext("2d");
     const image = new Image();
     image.onload = () => {
       context.drawImage(
         image,
-        -left / scale,
-        -top / scale,
-        frameSize.width / scale,
-        frameSize.height / scale,
+        source.x,
+        source.y,
+        source.width,
+        source.height,
         0,
         0,
         canvas.width,
@@ -198,6 +132,13 @@ export default function PhotoPicker({
     };
     image.src = pendingImage.src;
   }
+
+  const imageScale =
+    pendingImage && cropSize.width
+      ? getCropImageScale(pendingImage, cropSize, zoom)
+      : 0;
+  const imageWidth = pendingImage ? pendingImage.width * imageScale : 0;
+  const imageHeight = pendingImage ? pendingImage.height * imageScale : 0;
 
   //-------------------------------------------------------------
   function handleCancel() {
@@ -214,9 +155,9 @@ export default function PhotoPicker({
         <div className="space-y-4">
           <div>
             <p className="text-base font-semibold text-ink mb-1">
-              {cropText.title}
+              {t("cropTitle")}
             </p>
-            <p className="text-sm text-ink-soft">{cropText.hint}</p>
+            <p className="text-sm text-ink-soft">{t("cropHint")}</p>
           </div>
           <div
             ref={cropRef}
@@ -228,47 +169,17 @@ export default function PhotoPicker({
           >
             <img
               src={pendingImage.src}
-              alt={text.uploaded}
+              alt={t("photoUploaded")}
               draggable="false"
               className="absolute max-w-none pointer-events-none"
               style={{
-                width: cropSize.width
-                  ? pendingImage.width *
-                    Math.max(
-                      cropSize.width / pendingImage.width,
-                      cropSize.height / pendingImage.height,
-                    ) *
-                    zoom
-                  : "100%",
-                height: cropSize.height
-                  ? pendingImage.height *
-                    Math.max(
-                      cropSize.width / pendingImage.width,
-                      cropSize.height / pendingImage.height,
-                    ) *
-                    zoom
-                  : "100%",
-                left: cropSize.width
-                  ? (cropSize.width -
-                      pendingImage.width *
-                        Math.max(
-                          cropSize.width / pendingImage.width,
-                          cropSize.height / pendingImage.height,
-                        ) *
-                        zoom) /
-                      2 +
-                    position.x
+                width: imageScale ? imageWidth : "100%",
+                height: imageScale ? imageHeight : "100%",
+                left: imageScale
+                  ? (cropSize.width - imageWidth) / 2 + position.x
                   : 0,
-                top: cropSize.height
-                  ? (cropSize.height -
-                      pendingImage.height *
-                        Math.max(
-                          cropSize.width / pendingImage.width,
-                          cropSize.height / pendingImage.height,
-                        ) *
-                        zoom) /
-                      2 +
-                    position.y
+                top: imageScale
+                  ? (cropSize.height - imageHeight) / 2 + position.y
                   : 0,
               }}
             />
@@ -276,7 +187,7 @@ export default function PhotoPicker({
           </div>
           <label className="block text-sm text-ink-soft">
             <span className="flex justify-between mb-1.5">
-              <span>{cropText.zoom}</span>
+              <span>{t("cropZoom")}</span>
               <span>{zoom.toFixed(1)}x</span>
             </span>
             <input
@@ -295,14 +206,14 @@ export default function PhotoPicker({
               onClick={handleCancel}
               className="flex-1 text-sm px-3.5 py-2.5 rounded-full border border-[var(--rule)] text-ink-soft hover:border-[var(--green-mid)] transition-colors"
             >
-              {cropText.cancel}
+              {t("cropCancel")}
             </button>
             <button
               type="button"
               onClick={handleApply}
               className="flex-1 text-sm font-medium px-3.5 py-2.5 rounded-full bg-[var(--green-deep)] text-white hover:opacity-90 transition-opacity"
             >
-              {cropText.apply}
+              {t("cropApply")}
             </button>
           </div>
         </div>
@@ -310,13 +221,13 @@ export default function PhotoPicker({
         <div className="relative">
           <img
             src={photo}
-            alt={text.uploaded}
+            alt={t("photoUploaded")}
             className="w-full object-cover rounded-2xl border border-[var(--rule)]"
           />
           <button
             type="button"
             onClick={() => onChange(null)}
-            aria-label={text.remove}
+            aria-label={t("removePhoto")}
             className="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-black/45 backdrop-blur-sm text-white flex items-center justify-center hover:bg-black/60 transition-colors"
           >
             <IconX className="w-4 h-4" />
@@ -329,7 +240,7 @@ export default function PhotoPicker({
           className="flex w-full h-32 rounded-2xl border-2 border-dashed border-[var(--green-mid)] flex flex-col items-center justify-center gap-1.5 text-ink-soft"
         >
           <IconCamera className="w-6 h-6" />
-          <span className="text-sm">{text.hint}</span>
+          <span className="text-sm">{t("photoBody")}</span>
         </button>
       )}
 
@@ -340,7 +251,7 @@ export default function PhotoPicker({
           onClick={() => galleryRef.current?.click()}
           className="flex-1 text-sm px-3.5 py-2.5 rounded-full border border-[var(--paper)] text-ink bg-[var(--paper)] hover:border-[var(--green-mid)] transition-colors"
         >
-          {text.gallery}
+          {t("useGallery")}
         </button>
       </div>
 

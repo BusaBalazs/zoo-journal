@@ -13,11 +13,6 @@ export const ANIMALS = [
     scientificName: "Panthera leo",
     src: "lionCard",
     typeId: "mammal",
-    intro: {
-      hu: "A vadon élő oroszlánok elsősorban Afrikában élnek. Társas ragadozók, amelyek csapatos falkákban élnek és együtt vadásznak.",
-      en: "Wild lions live mainly in Africa. They are social predators that live in prides and hunt together.",
-      de: "Wildlebende Löwen kommen hauptsächlich in Afrika vor. Sie sind soziale Raubtiere, die in Rudeln leben und gemeinsam jagen.",
-    },
     habitat: {
       hu: "Szavannák, füves puszták és ritkás erdők Afrikában.",
       en: "Savannas, grasslands, and open woodlands in Africa.",
@@ -117,11 +112,6 @@ export const ANIMALS = [
     scientificName: "Loxodonta africana / Elephas maximus",
     src: "elephantCard",
     typeId: "mammal",
-    intro: {
-      hu: "Az elefántok a legnagyobb szárazföldi emlősök. Rendkívül intelligensek, szoros családi közösségekben élnek, és kiváló a memóriájuk.",
-      en: "Elephants are the largest living land mammals. They are highly intelligent, live in close family groups, and have exceptional memories.",
-      de: "Elefanten sind die größten lebenden Landsäugetiere. Sie sind sehr intelligent, leben in engen Familienverbänden und haben ein ausgezeichnetes Gedächtnis.",
-    },
     habitat: {
       hu: "Szavannák, erdők és folyóvölgyek Afrikában és Ázsiában.",
       en: "Savannas, forests, and river valleys in Africa and Asia.",
@@ -221,11 +211,6 @@ export const ANIMALS = [
     scientificName: "Spheniscidae",
     src: "penguinCard",
     typeId: "bird",
-    intro: {
-      hu: "A pingvinek röpképtelen tengeri madarak, amelyek kiválóan alkalmazkodtak a vízi életmódhoz. Idejük nagy részét a tengerben töltik vadászattal.",
-      en: "Penguins are flightless seabirds highly adapted to life in the water. They spend most of their time at sea hunting.",
-      de: "Pinguine sind flugunfähige Seevögel, die hervorragend an das Leben im Wasser angepasst sind. Sie verbringen die meiste Zeit jagend im Meer.",
-    },
     habitat: {
       hu: "Főként a déli féltekén: az Antarktisztól kezdve Dél-Afrika, Dél-Amerika és Ausztrália tengerpartjaiig, sőt a Galápagos-szigetekig.",
       en: "Mainly in the Southern Hemisphere: from Antarctica to the coasts of South Africa, South America, Australia, and even the Galápagos Islands.",
@@ -321,11 +306,6 @@ export const ANIMALS = [
     scientificName: "Giraffa camelopardalis",
     src: "giraffeCard",
     typeId: "mammal",
-    intro: {
-      hu: "A zsiráf a Föld legmagasabb szárazföldi állata. Hosszú nyakával és lábaival könnyedén eléri a lombkorona legfelső leveleit is.",
-      en: "The giraffe is the tallest land animal on Earth. With its long neck and legs, it easily reaches leaves high up in the tree canopy.",
-      de: "Die Giraffe ist das höchste Landtier der Erde. Mit ihrem langen Hals und ihren langen Beinen erreicht sie mühelos die Blätter in den Baumkronen.",
-    },
     habitat: {
       hu: "Afrika szavannái, füves területei és nyílt akácerdői.",
       en: "Savannas, grasslands, and open acacia woodlands in Africa.",
