@@ -19,7 +19,7 @@ const translations = {
     activeResearch: "Kutatás aktív",
     greeting: (name) => `Szia, ${name}!`,
     collect:
-      "Fedezd fel az állatkert lakóit, és gyűjts, minél több kártyát a kutatási naplódba.",
+      "Fedezd fel a Nyíregyházi Állatpark lakóit, és gyűjts minél több kártyát a kutatási naplódba.",
     observedAnimals: "megfigyelt állat",
     featuredAnimals: "Válassz állatot!",
     all: "Összes",
@@ -46,7 +46,7 @@ const translations = {
       "Nincs aktív látogatásod — a bejegyzéseidet megnyithatod és szerkesztheted, új kutatáshoz koppints ide.",
     emptyJournalTitle: "A naplód még üres",
     emptyJournalBody:
-      "Figyelj meg egy állatot a zooban, és az első bejegyzésed itt fog megjelenni.",
+      "Figyelj meg egy állatot a Nyíregyházi Állatparkban, és az első bejegyzésed itt fog megjelenni.",
     search: "Keresés",
     noAnimal: "Nincs ilyen nevű kiemelt állat.",
     discover: "Fedezd fel.",
@@ -68,7 +68,7 @@ const translations = {
     locationConfirmedBody: (zoo) =>
       `A koordinátáid alapján itt vagy: ${zoo}. Indíthatod a mai kutatást.`,
     startSession: "Kutatási munkamenet indítása",
-    notAtZoo: "Nem vagy most az állatkertben?",
+    notAtZoo: "Nem vagy most a Nyíregyházi Állatparkban?",
     locationUnavailable:
       "A helyzeted nem érhető el. Egyelőre csak a korábbi bejegyzéseidet érheted el.",
     locationOutside: (zoo) =>
@@ -144,7 +144,7 @@ const translations = {
     activeResearch: "Research active",
     greeting: (name) => `Hi, ${name}!`,
     collect:
-      "Discover the zoo animals and collect as many cards as possible for your research journal.",
+      "Discover the Nyíregyháza Zoo animals and collect as many cards as possible for your research journal.",
     observedAnimals: "animals observed",
     featuredAnimals: "Choose an animal!",
     all: "All",
@@ -170,7 +170,7 @@ const translations = {
       "No active visit. You can open and edit entries; tap here to start new research.",
     emptyJournalTitle: "Your journal is empty",
     emptyJournalBody:
-      "Observe an animal at the zoo and your first entry will appear here.",
+      "Observe an animal at the Nyíregyháza Zoo and your first entry will appear here.",
     search: "Search",
     noAnimal: "No featured animal with that name.",
     discover: "Discover.",
@@ -193,7 +193,7 @@ const translations = {
     locationConfirmedBody: (zoo) =>
       `Your coordinates show that you are at ${zoo}. You can start today's research.`,
     startSession: "Start research session",
-    notAtZoo: "Are you outside the zoo?",
+    notAtZoo: "Are you outside the Nyíregyháza Zoo?",
     locationUnavailable:
       "Your location is unavailable. For now, you can only access previous entries.",
     locationOutside: (zoo) =>
@@ -270,7 +270,7 @@ const translations = {
     activeResearch: "Forschung aktiv",
     greeting: (name) => `Hallo, ${name}!`,
     collect:
-      "Entdecke die Zoobewohner und sammle so viele Karten wie möglich für dein Forschungstagebuch.",
+      "Entdecke die Bewohner des Tierparks Nyíregyháza und sammle so viele Karten wie möglich für dein Forschungstagebuch.",
     observedAnimals: "beobachtete Tiere",
     featuredAnimals: "Wähle ein Tier",
     all: "Alle",
@@ -297,7 +297,7 @@ const translations = {
       "Kein aktiver Besuch. Du kannst Einträge öffnen und bearbeiten; tippe hier, um neue Forschung zu starten.",
     emptyJournalTitle: "Dein Tagebuch ist leer",
     emptyJournalBody:
-      "Beobachte ein Tier im Zoo, dann erscheint dein erster Eintrag hier.",
+      "Beobachte ein Tier im Tierpark Nyíregyháza, dann erscheint dein erster Eintrag hier.",
     search: "Suchen",
     noAnimal: "Kein besonderes Tier mit diesem Namen.",
     discover: "Entdecke.",
@@ -321,7 +321,7 @@ const translations = {
     locationConfirmedBody: (zoo) =>
       `Deine Koordinaten zeigen, dass du bei ${zoo} bist. Du kannst die Forschung starten.`,
     startSession: "Forschungssitzung starten",
-    notAtZoo: "Bist du gerade außerhalb des Zoos?",
+    notAtZoo: "Bist du gerade außerhalb des Tierparks Nyíregyháza?",
     locationUnavailable:
       "Dein Standort ist nicht verfügbar. Du kannst vorerst nur frühere Einträge aufrufen.",
     locationOutside: (zoo) =>
@@ -392,6 +392,7 @@ const translations = {
     cropCancel: "Abbrechen",
   },
 };
+
 
 export function LanguageProvider({ children }) {
   const [language, setLanguage] = useState(() => {

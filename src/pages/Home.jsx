@@ -4,6 +4,7 @@ import { ANIMALS } from "../data/animals";
 import { IconChevronRight, IconBpZoo } from "../components/icons";
 import WaveDivider from "../components/WaveDivider";
 import { useLanguage } from "../i18n/LanguageContext";
+import { zooLogo } from "../assets/index.js";
 
 //--------------------------------------------------------------------------
 //--------------------------------------------------------------------------
@@ -42,7 +43,7 @@ export default function Home({
       <header className="relative px-4 pt-4 pb-10">
         <div className="flex items-center justify-between gap-3 mb-4">
           <div className="w-14 h-20 shrink-0">
-            <IconBpZoo className="w-full h-full" />
+            <img src={zooLogo.nyiregyhazaZooLogo} className="rounded-xl"/>
           </div>
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-[var(--paper)] bg-[color:var(--paper)]/20 border border-[color:var(--green-mid)]/55 rounded-full px-3 py-2">
             <span className="font-semibold">{t("activeResearch")}</span>
