@@ -43,3 +43,13 @@ export const animalCards = {
   penguinCard: penguinCard,
   giraffeCard: giraffeCard,
 };
+
+
+//-----------------------------------------------------------
+// ZOO LOGO
+
+import nyiregyhazaZooLogo from "./nyiregyhaza.png";
+
+export const zooLogo = {
+  nyiregyhazaZooLogo: nyiregyhazaZooLogo,
+};
